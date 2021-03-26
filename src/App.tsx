@@ -1,25 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import HomeView from "./HomeModule/HomeView";
+import 'bootstrap/dist/css/bootstrap.min.css';
+// @ts-ignore
+import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
+import InfoView from "./InfoModule/InfoView";
+import Page404 from "./ErrorModule/Page404";
+import LoginView from "./LoginModule/LoginView";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Router>
+          <Switch>
+              <Route exact path={"/error"} component={Page404}/>
+              <Route exact path={"/login"} component={LoginView}/>
+              <Route exact path={"/"} component={HomeView}/>
+              <Route exact path={"/start"} component={HomeView}/>
+              <Route exact path={"/info"} component={InfoView}/>
+              {/*<Route exact path={"/login"} render={props => ((this.state.userLogged) ? <MainView {...props}/> : <LoginView {...props}/>)}/>*/}
+              <Redirect to={"/error"}/>
+          </Switch>
+      </Router>
   );
 }
 
