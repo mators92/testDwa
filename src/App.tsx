@@ -14,7 +14,7 @@ function App() {
           <Switch>
               <Route exact path={"/error"} component={Page404}/>
               <Route exact path={"/login"} component={LoginView}/>
-              <Route exact path={"/"} component={HomeView}/>
+              <Route exact path={"/"} component={() => <Redirect to={"/start"}/>}/>
               <Route exact path={"/start"} component={HomeView}/>
               <Route exact path={"/info"} component={InfoView}/>
               {/*<Route exact path={"/login"} render={props => ((this.state.userLogged) ? <MainView {...props}/> : <LoginView {...props}/>)}/>*/}

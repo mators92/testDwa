@@ -1,7 +1,7 @@
 export default class AppConfiguration{
 
     static APP_NAME(){
-        return  "Aplikacja czysty template"
+        return  "OSP Rzeszów - Słocina"
     }
 
     static APP_VER(){

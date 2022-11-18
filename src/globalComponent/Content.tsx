@@ -13,9 +13,11 @@ export default class Content extends React.Component {
 
                 <Menu/>
 
-                <div className="content">
-                    <div className={"page"}>
-                        {this.props.children}
+                <div className={'opakowanie'}>
+                    <div className="content">
+                        <div className={"page"}>
+                            {this.props.children}
+                        </div>
                     </div>
                     <Footer/>
                 </div>
