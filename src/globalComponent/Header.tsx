@@ -1,5 +1,7 @@
 import * as React from 'react';
 import {Link} from "react-router-dom";
+import {getImieNazwisko, wyloguj} from "../Serwis";
+import {Col, Row} from "react-bootstrap";
 
 export default class Header extends React.Component {
 
@@ -21,15 +23,13 @@ export default class Header extends React.Component {
 
 
             {/*<Row>*/}
-            {/*    <Col>1 of 3</Col>*/}
-            {/*    <Col xs={6}>2 of 3 (wider)</Col>*/}
-            {/*    <Col>3 of 3</Col>*/}
+            {/*    <Col>{getImieNazwisko()}</Col>*/}
             {/*</Row>*/}
 
             {/*<div className={'pull-right'}>*/}
             <div className={'push'}>
                 {/*<Link to={'/login'}><span id={"wyloguj-btn"}><i className={"fa fa-power-off"}/> Wyloguj</span></Link>*/}
-                <Link to={'/login'}><button type="button" className="btn btn-danger"><i className={"fa fa-power-off"}/> Wyloguj</button></Link>
+                <button type="button" className="btn btn-danger" onClick={() => wyloguj()}><i className={"fa fa-power-off"}/> Wyloguj</button>
             </div>
 
             {/*</div>*/}

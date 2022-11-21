@@ -60,6 +60,7 @@ $boxTitlebacground: #BFD142; //#2e527a;
   margin-left: 250px;
   height: 50px;
   background: $headerBacground;
+  z-index: 8;
   //padding: 5px;
   top: 0;
   position: fixed;
@@ -138,6 +139,7 @@ $boxTitlebacground: #BFD142; //#2e527a;
 // menu DESKTOP
 .sidebar {
   //margin-top: 50px;
+  z-index: 9;
   margin: 0;
   padding: 0;
   padding-top: 10px;
@@ -173,8 +175,10 @@ $boxTitlebacground: #BFD142; //#2e527a;
   letter-spacing: 5px;
   color: white;
   padding: 5px;
+  //height: 50px;
   background: #061018;
   font-size: 0.65rem;
+  //margin-bottom: 10px;
 }
 
 .menuItems{
@@ -471,6 +475,7 @@ div.content {
   max-width: 500px;
   width: 320px;
   padding: 25px;
+  margin: auto;
 }
 
 .loginContainer label {
@@ -487,12 +492,88 @@ div.content {
   margin-top: 10px;
   width: 100%;
   color: white;
-  background: #18318C;
-  border-color: #18318C;
+  background: #6D9886;
+  border-color: #6D9886;
 
   &:hover{
-    background: #213b9b;
-    border-color: #213b9b;
+    background: #5e7c6e;
+    border-color: #5e7c6e;
     color: white;
   }
+}
+
+#POPUP_WRAPPER {
+
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index:999999;
+  top: 0;
+  left: 0;
+  //background: rgba(255, 255, 255, 0.8);
+  background: hsla(0,0%,78.4%,.85) !important;
+
+  .popup-element {
+    width: 95vw;
+    //max-width: 1330px;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 10vh;
+    //box-shadow: 1px 1px 3px #ddd;
+    box-shadow: 8px 8px 6px rgba(123, 123, 123, 0.84);
+
+    @media screen and (max-width: 992px) {
+      margin-top: 5vh;
+    }
+
+    #popup-header {
+
+      padding: 5px 5px;
+      border: 1px solid #545454;
+      border-bottom: none;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      background: #999999;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      cursor:default;
+
+      h1 {
+        text-transform: uppercase;
+        font-weight: normal;
+        color: inherit;
+        font-size: 1rem;
+        margin: 0;
+        width: calc(100% - 30px);
+        text-align: center;
+      }
+
+      #popup-close-icon {
+        font-size: 1rem;
+        cursor: pointer;
+        color: inherit;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+
+    #popup-body {
+      cursor:default;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-top: none;
+      border-bottom-left-radius: 1px;
+      border-bottom-right-radius: 1px;
+      padding: 15px;
+
+      overflow-y: auto;
+      max-height: 85vh;
+
+      @media screen and (max-width: 992px) {
+        max-height: 75vh;
+      }
+    }
+  }
+
 }

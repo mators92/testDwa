@@ -7,6 +7,10 @@ import './../styles/kalendarz.scss';
 // import "bootstrap/dist/css/bootstrap.min.css";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "moment/locale/pl";
+import PopupWrapper from "../globalComponent/PopupWrapper";
+import DodajDyspozycyjnosc from "./DodajDyspozycyjnosc";
+import {dodajDyspozycyjnosc, getKalendarz, getNumer} from "../Serwis";
+import {Children} from "react";
 
 interface Props {
     // match: any
@@ -19,7 +23,9 @@ interface State {
     scrollDate: any,
     today: any,
     allowToSelect: boolean,
-    loader: boolean
+    loader: boolean,
+    showFormularz: boolean,
+    dyspozycja: any
 }
 
 export default class HomeView extends React.Component<Props, State> {
@@ -33,25 +39,45 @@ export default class HomeView extends React.Component<Props, State> {
             scrollDate: moment().format("YYYY-MM-DD"),
             today: new Date(Date.now()),
             allowToSelect: true,
-            loader: false
+            loader: false,
+            showFormularz: false,
+            dyspozycja: null
         }
     }
 
+    componentDidMount() {
+        this.pobierzEventy();
+    }
+
+    pobierzEventy = () => {
+        getKalendarz().then((response) => {
+            this.setState({events: this.przeksztalcResponseDoKalendarza(response.data)});
+        }).catch((e) => {
+            console.log('error')
+        })
+    }
+
+    przeksztalcResponseDoKalendarza = (response: any) => {
+        // kopiowanie tablicy ze zmienionymi polami by pasowały do kalendarza
+        let arr = Array.from(response, (item: any) => {
+
+            return {
+                id: item.numer,
+                title: item.IMIE + ' ' + item.NAZWISKO,
+                desc: 'description',
+                start: new Date(item.data_gotowosci),
+                end: new Date(item.data_gotowosci),
+                allDay: true,
+            }
+        });
+
+        console.log(arr)
+
+        return arr
+    }
+
     changeNavigate = (e: any) => {
-        // if((moment(this.state.scrollDate).format('MM') !== moment(e).format('MM')) && this.state.wybranaOsobaKalendarz !== null) {
-        //     // this.setState({scrollDate: new Date(e)}, () =>
-        //     this.setState({scrollDate: moment(e).format("YYYY-MM-DD")}, () =>
-        //         // @ts-ignore
-        //         getRaporty('', '', this.state.wybranaOsobaKalendarz.id, '', moment(this.state.scrollDate).startOf('month').format('YYYY-MM-DD'), moment(this.state.scrollDate).endOf('month').format('YYYY-MM-DD')).then((response) => {
-        //             this.setState({events: this.przeksztalcResponseDoKalendarza(response.data), allowToSelect: false});
-        //         }).catch((e) => {
-        //             console.log('error');
-        //         })
-        //     );
-        // } else {
-        //     this.setState({scrollDate: moment(e).format("YYYY-MM-DD")});
-        //     // this.setState({scrollDate: new Date(e)});
-        // }
+        this.setState({scrollDate: moment(e).format("YYYY-MM-DD")});
     }
 
     handleSelectEvent = (event: any) => {
@@ -63,17 +89,64 @@ export default class HomeView extends React.Component<Props, State> {
         // });
     }
 
+    formatDateFromObject = (obj: any) => {
+        let day = obj.getDate();
+        if (day.toString().length == 1) {
+            day = '0' + day;
+        }
+        let month = obj.getMonth() + 1;
+        if (month.toString().length == 1) {
+            month = '0' + month;
+        }
+        let year = obj.getFullYear();
+
+        // return (year + "." + month + "." + day)
+        return (year + "-" + month + "-" + day)
+    }
+
+    czyJuzZapisanyNaTenDzien = (slot: any) => {
+        let eve = this.state.events;
+        let czyJest = false;
+
+        let eventsPerDey = eve.filter((e: any) => moment(e.start).format("YYYY-MM-DD") === this.formatDateFromObject(slot.start))
+
+        console.log(eventsPerDey)
+        eventsPerDey.forEach((e: any) => {
+            if(e.id === getNumer())
+                czyJest = true
+        })
+
+        return czyJest
+    }
+
     handleSelectSlot = (slot: any) => {
+        // alert('ok')
         // let sloti = slot;
-        // // sloti.end = sloti.start;
-        // console.log(slot)
+        // sloti.end = sloti.start;
+        console.log(slot)
+
+        if(this.czyJuzZapisanyNaTenDzien(slot)) {
+            alert('Już jesteś dyspozycyjny w tym dniu')
+        } else {
+            this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+        }
+
         // this.setState({eventObject: sloti, isItEditon: false});
         // this.showEventForm();
     }
 
+    onClickZapisz = (data: any) => {
+        dodajDyspozycyjnosc(data.numer, data.kiedy).then((response) => {
+            this.setState({showFormularz: false});
+            this.pobierzEventy();
+        }).catch((e) => {
+            console.log('error');
+        })
+    }
+
     render() {
 
-        let {allowToSelect, events, scrollDate, stepValue, timeslotsValue, today} = this.state;
+        let {allowToSelect, events, scrollDate, stepValue, timeslotsValue, today, showFormularz, dyspozycja} = this.state;
         const localizer = momentLocalizer(moment);
 
         const translation = {
@@ -114,17 +187,23 @@ export default class HomeView extends React.Component<Props, State> {
                     messages={translation}
                     selectable={allowToSelect}
                     events={events}
-                    views={['month', 'week', 'day', 'agenda']}
+                    views={['month', 'week', 'day']}
+                    // views={['month', 'week', 'day', 'agenda']}
                     step={stepValue}
                     timeslots={timeslotsValue}
                     date={scrollDate}
                     onNavigate={(e) => this.changeNavigate(e)}
+                    popup
 
                     min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)}
 
                     onSelectEvent={event => this.handleSelectEvent(event)}
                     onSelectSlot={(slotInfo) => this.handleSelectSlot(slotInfo)}
                     // onSelectSlot={(slotInfo) => console.log(slotInfo)}
+
+                    // components={{
+                    //     dateCellWrapper: function noRefCheck(){}
+                    // }}
 
                     // components={{
                     //     event: this.formatEvent,
@@ -139,6 +218,16 @@ export default class HomeView extends React.Component<Props, State> {
                     //     }
                     // }}
                     localizer={localizer}/>
+
+                    {
+                        showFormularz &&
+                        <PopupWrapper header={'Dodaj dyspozycyjność'}
+                                      shouldNotCloseWithoutClick={true} withoutOverflowY={false}
+                                      onClose={() => this.setState({showFormularz: false})}
+                        >
+                            <DodajDyspozycyjnosc handleClickAnuluj={() => this.setState({showFormularz: false})} handleClickWyslij={this.onClickZapisz} dyspozycja={dyspozycja}/>
+                        </PopupWrapper>
+                    }
                 </div>
             </Content>
         )

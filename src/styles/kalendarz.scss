@@ -1,6 +1,33 @@
 .kalendarzModule {
   padding: 25px 5px;
   width: 100%;
+
+  .rbc-event{
+    font-size: 9px !important;
+    padding: 2px 5px;
+  }
+
+  .rbc-show-more{
+    font-size: 9px;
+  }
+
+  .rbc-month-row{
+
+  }
+
+  .rbc-time-content{
+    display: none !important;
+  }
+
+  .rbc-time-header{
+    height: 100%;
+
+    .rbc-event{
+      font-size: 15px !important;
+      padding: 2px 5px;
+    }
+  }
+
 }
 .kalendarzModule .panel-body {
   padding: 15px 0;

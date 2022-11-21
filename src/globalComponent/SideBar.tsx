@@ -2,6 +2,8 @@ import * as React from 'react'
 import app_routes from "../configuration/app_routes";
 // @ts-ignore
 import {Link} from "react-router-dom";
+import {Col, Row} from "react-bootstrap";
+import {getImieNazwisko} from "../Serwis";
 
 export default class SideBar extends React.Component {
 
@@ -21,9 +23,9 @@ export default class SideBar extends React.Component {
 
 
                 <div className={'sidebar'}>
-                    {/*<div id={'sidebar-header'}>*/}
-                    {/*    <span>MENU</span>*/}
-                    {/*</div>*/}
+                    <div id={'sidebar-header'}>
+                        <span>{getImieNazwisko()}</span>
+                    </div>
                     {
                         app_routes.APP_ROUTES().map((item: any) => (
                             <div>

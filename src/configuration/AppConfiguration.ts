@@ -17,10 +17,7 @@ export default class AppConfiguration{
     }
 
     static HOST_API(){
-        if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
-            return 'http://centos7.top:8080/admin/api/'
-        else
-            return '/admin/api/'
+        return 'https://osp.netserwer.pl/'
     }
 
 }
