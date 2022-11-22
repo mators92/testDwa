@@ -2,27 +2,15 @@ export default class app_routes{
 
     static APP_ROUTES() {return [
         {
-            icon: "fa fa-dashboard",
-            name: "Start",
-            url:"/start",
+            icon: "fa fa-calendar",
+            name: "Kalendarz",
+            url:"/kalendarz",
             nested:false,
         },
         {
-            icon: "fa fa-id-card-o",
-            name: "Klienci",
-            url:"/klienci",
-            nested:false,
-        },
-        {
-            icon: "fa fa-money",
-            name: "Promocje",
-            url:"/promocje",
-            nested:false,
-        },
-        {
-            icon: "fa fa-building",
-            name: "Oddziały",
-            url:"/oddzialy",
+            icon: "fa fa-cog",
+            name: "Ustawienia",
+            url:"/ustawienia",
             nested:false,
         },
         {

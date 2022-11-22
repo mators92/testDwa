@@ -9,7 +9,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "moment/locale/pl";
 import PopupWrapper from "../globalComponent/PopupWrapper";
 import DodajDyspozycyjnosc from "./DodajDyspozycyjnosc";
-import {dodajDyspozycyjnosc, getKalendarz, getNumer} from "../Serwis";
+import {dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
 import {Children} from "react";
 
 interface Props {
@@ -46,6 +46,7 @@ export default class HomeView extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        scrollToTop();
         this.pobierzEventy();
     }
 

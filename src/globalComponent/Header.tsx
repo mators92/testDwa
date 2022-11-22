@@ -29,7 +29,8 @@ export default class Header extends React.Component {
             {/*<div className={'pull-right'}>*/}
             <div className={'push'}>
                 {/*<Link to={'/login'}><span id={"wyloguj-btn"}><i className={"fa fa-power-off"}/> Wyloguj</span></Link>*/}
-                <button type="button" className="btn btn-danger" onClick={() => wyloguj()}><i className={"fa fa-power-off"}/> Wyloguj</button>
+                <button type="button" className="onDesktop btn btn-danger" onClick={() => wyloguj()}><i className={"fa fa-power-off"}/> Wyloguj</button>
+                <button type="button" className="onMobile btn btn-danger" onClick={() => wyloguj()}><i className={"fa fa-power-off"}/></button>
             </div>
 
             {/*</div>*/}

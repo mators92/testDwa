@@ -12,6 +12,14 @@ export const isLogged = () => {
     }
 }
 
+export const isAdmin = () => {
+    if (JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).dostep === '1'){
+        return true
+    } else {
+        return false
+    }
+}
+
 export const getImieNazwisko = () => {
     if (sessionStorage.sesjaUzytkownikaSystemuOSP !== undefined){
         return JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).imie + ' ' + JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).nazwisko
@@ -52,6 +60,18 @@ export const dodajDyspozycyjnosc = (numer: any, kiedy: any) => {
     })
 }
 
+export const zmienHaslo = (nowe: any) => {
+    return axios({
+        method: 'post',
+        url: HOST_API + "zmianahasla.php",
+        headers: {"Content-Type": "text/plain"},
+        data: {
+            nr: getNumer(),
+            nowe: nowe
+        }
+    })
+}
+
 export const getKalendarz = () => {
     return axios({
         method: 'POST',
@@ -67,4 +87,14 @@ export const wyloguj = () => {
     window.location.replace('/')
     //this.props.history.push('/')
     console.log('wylogowano')
+}
+
+export const scrollToTop = () => {
+    let scrollStep = -window.scrollY / (100 / 10)
+    let scrollInterval = setInterval(function () {
+        if (window.scrollY != 0) {
+            window.scrollBy(0, scrollStep);
+        }
+        else clearInterval(scrollInterval);
+    }, 10);
 }
