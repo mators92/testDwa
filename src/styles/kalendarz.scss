@@ -4,7 +4,9 @@
 
   .rbc-event{
     font-size: 9px !important;
-    padding: 2px 5px;
+    padding: 1px 5px;
+    max-height: 14px;
+    border-radius: 3px;
   }
 
   .rbc-show-more{
@@ -13,6 +15,15 @@
 
   .rbc-month-row{
 
+  }
+
+  .rbc-selected-cell{
+    background: #4CAF50 !important;
+  }
+
+  .rbc-date-cell{
+    font-size: 11px;
+    //display: none;
   }
 
   .rbc-time-content{
@@ -26,6 +37,10 @@
       font-size: 15px !important;
       padding: 2px 5px;
     }
+  }
+
+  .test{
+    background: #4CAF50;
   }
 
 }

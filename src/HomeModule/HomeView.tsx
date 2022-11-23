@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, {Children, useCallback} from 'react';
 import Content from "../globalComponent/Content";
 import Box from "../globalComponent/Box";
 import {Calendar, momentLocalizer} from 'react-big-calendar';
@@ -10,7 +10,7 @@ import "moment/locale/pl";
 import PopupWrapper from "../globalComponent/PopupWrapper";
 import DodajDyspozycyjnosc from "./DodajDyspozycyjnosc";
 import {dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
-import {Children} from "react";
+// import {Children} from "react";
 
 interface Props {
     // match: any
@@ -120,6 +120,14 @@ export default class HomeView extends React.Component<Props, State> {
         return czyJest
     }
 
+    czySkladNaDzien = (data: any) => {
+        let eve = this.state.events;
+
+        let eventsPerDey = eve.filter((e: any) => moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD"));
+
+        return (eventsPerDey.length >= 4)
+    }
+
     handleSelectSlot = (slot: any) => {
         // alert('ok')
         // let sloti = slot;
@@ -145,6 +153,8 @@ export default class HomeView extends React.Component<Props, State> {
         })
     }
 
+
+
     render() {
 
         let {allowToSelect, events, scrollDate, stepValue, timeslotsValue, today, showFormularz, dyspozycja} = this.state;
@@ -166,6 +176,29 @@ export default class HomeView extends React.Component<Props, State> {
             today: 'dziś',
             agenda: 'lista',
         };
+
+        const EventWrapperComponent = ({ children, value }: any) => {
+            console.log(value)
+        return React.cloneElement(Children.only(children), {
+                style: {
+                    ...children.style,
+                    backgroundColor: this.czySkladNaDzien(value) ? 'lightgreen' : (moment().format("YYYY-MM-DD") < moment(value).format("YYYY-MM-DD"))? '#f5aaaa' : '',
+                },
+            }
+
+            // const newChildren = { ...children };
+            // console.log(children)
+            // newChildren.props.style = {background: '#750000'}
+            // const newChildrenProps = { ...newChildren.props };
+
+            // console.log(newChildrenProps)
+            // newChildrenProps.className = 'test';
+            // newChildrenProps.className = `${newChildrenProps.className} outline-none border-none  bg-red-500`;
+            // newChildren.props = { ...newChildrenProps };
+
+            // return <div>{newChildren}</div>;
+            // return <div>{newChildren}</div>;
+        )};
 
         return(
             <Content>
@@ -203,8 +236,21 @@ export default class HomeView extends React.Component<Props, State> {
                     // onSelectSlot={(slotInfo) => console.log(slotInfo)}
 
                     // components={{
-                    //     dateCellWrapper: function noRefCheck(){}
+                    //     // @ts-ignore
+                    //     dateCellWrapper: (children: any, value) => {
+                    //         React.cloneElement(Children.only(children), {
+                    //             style: {
+                    //                 ...children.style,
+                    //                 backgroundColor: value < (moment().toDate()) ? 'lightgreen' : 'lightblue',
+                    //             },})
+                    //     }
                     // }}
+
+                    // @ts-ignore
+                    // components={{dateCellWrapper: (chi) => (true)? <div>{chi}</div> : null }}
+                    // components={{dateCellWrapper: (chi) => (!true)? <div className={'rbc-row-bg'} style={{background: '#999'}}>k</div> : null }}
+
+                    components={{dateCellWrapper: EventWrapperComponent}}
 
                     // components={{
                     //     event: this.formatEvent,
