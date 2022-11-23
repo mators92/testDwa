@@ -10,6 +10,8 @@ import "moment/locale/pl";
 import PopupWrapper from "../globalComponent/PopupWrapper";
 import DodajDyspozycyjnosc from "./DodajDyspozycyjnosc";
 import {dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
+import {Modal, message} from "antd";
+import "antd/dist/antd.css";
 // import {Children} from "react";
 
 interface Props {
@@ -25,7 +27,9 @@ interface State {
     allowToSelect: boolean,
     loader: boolean,
     showFormularz: boolean,
-    dyspozycja: any
+    dyspozycja: any,
+    view: any,
+    showModalDost: boolean
 }
 
 export default class HomeView extends React.Component<Props, State> {
@@ -41,7 +45,9 @@ export default class HomeView extends React.Component<Props, State> {
             allowToSelect: true,
             loader: false,
             showFormularz: false,
-            dyspozycja: null
+            dyspozycja: null,
+            view: 'month',
+            showModalDost: false
         }
     }
 
@@ -82,12 +88,10 @@ export default class HomeView extends React.Component<Props, State> {
     }
 
     handleSelectEvent = (event: any) => {
-        // scrollToTop();
-        // this.setState({showEventForm: false}, () => {
-        //     this.setState({eventObject: event, isItEditon: true, showEventForm: true}, () => {
-        //         console.log(this.state.eventObject);
-        //     });
-        // });
+        scrollToTop();
+        this.setState({scrollDate: moment(event.start).format("YYYY-MM-DD")});
+        this.onChangeView('day')
+        // this.setState({showModalDost: true})
     }
 
     formatDateFromObject = (obj: any) => {
@@ -129,35 +133,38 @@ export default class HomeView extends React.Component<Props, State> {
     }
 
     handleSelectSlot = (slot: any) => {
-        // alert('ok')
-        // let sloti = slot;
-        // sloti.end = sloti.start;
-        console.log(slot)
-
         if(this.czyJuzZapisanyNaTenDzien(slot)) {
-            alert('Już jesteś dyspozycyjny w tym dniu')
+            // alert('Już jesteś dyspozycyjny w tym dniu')
+            message.info('Już jesteś dyspozycyjny w tym dniu');
         } else {
-            this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+            if(moment(slot.start).format("YYYY-MM-DD") >= moment().format("YYYY-MM-DD")){
+                this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+            } else {
+                // alert('Stara data!')
+                message.warn('Stara data! Wybierz inną datę.');
+            }
         }
-
-        // this.setState({eventObject: sloti, isItEditon: false});
-        // this.showEventForm();
     }
 
     onClickZapisz = (data: any) => {
         dodajDyspozycyjnosc(data.numer, data.kiedy).then((response) => {
             this.setState({showFormularz: false});
             this.pobierzEventy();
+            message.success('Dodano dyspozycyjność');
         }).catch((e) => {
-            console.log('error');
+            // console.log('error');
+            this.setState({showFormularz: false});
+            message.error('Błąd zapisu!');
         })
     }
 
-
+    onChangeView = (newView: any) => {
+        this.setState({view: newView});
+    }
 
     render() {
 
-        let {allowToSelect, events, scrollDate, stepValue, timeslotsValue, today, showFormularz, dyspozycja} = this.state;
+        let {allowToSelect, events, scrollDate, stepValue, timeslotsValue, today, showFormularz, dyspozycja, view, showModalDost} = this.state;
         const localizer = momentLocalizer(moment);
 
         const translation = {
@@ -178,7 +185,7 @@ export default class HomeView extends React.Component<Props, State> {
         };
 
         const EventWrapperComponent = ({ children, value }: any) => {
-            console.log(value)
+            // console.log(value)
         return React.cloneElement(Children.only(children), {
                 style: {
                     ...children.style,
@@ -221,6 +228,8 @@ export default class HomeView extends React.Component<Props, State> {
                     messages={translation}
                     selectable={allowToSelect}
                     events={events}
+                    view={view}
+                    onView={this.onChangeView}
                     views={['month', 'week', 'day']}
                     // views={['month', 'week', 'day', 'agenda']}
                     step={stepValue}
@@ -233,22 +242,6 @@ export default class HomeView extends React.Component<Props, State> {
 
                     onSelectEvent={event => this.handleSelectEvent(event)}
                     onSelectSlot={(slotInfo) => this.handleSelectSlot(slotInfo)}
-                    // onSelectSlot={(slotInfo) => console.log(slotInfo)}
-
-                    // components={{
-                    //     // @ts-ignore
-                    //     dateCellWrapper: (children: any, value) => {
-                    //         React.cloneElement(Children.only(children), {
-                    //             style: {
-                    //                 ...children.style,
-                    //                 backgroundColor: value < (moment().toDate()) ? 'lightgreen' : 'lightblue',
-                    //             },})
-                    //     }
-                    // }}
-
-                    // @ts-ignore
-                    // components={{dateCellWrapper: (chi) => (true)? <div>{chi}</div> : null }}
-                    // components={{dateCellWrapper: (chi) => (!true)? <div className={'rbc-row-bg'} style={{background: '#999'}}>k</div> : null }}
 
                     components={{dateCellWrapper: EventWrapperComponent}}
 
@@ -275,6 +268,22 @@ export default class HomeView extends React.Component<Props, State> {
                             <DodajDyspozycyjnosc handleClickAnuluj={() => this.setState({showFormularz: false})} handleClickWyslij={this.onClickZapisz} dyspozycja={dyspozycja}/>
                         </PopupWrapper>
                     }
+
+                    {/*<Modal*/}
+                    {/*    // className="QRModal"*/}
+                    {/*    title="Zeskanuj kod aby pobrać aplikacje mobilną"*/}
+                    {/*    visible={showModalDost}*/}
+                    {/*    onOk={() => {*/}
+                    {/*        this.setState({ showModalDost: false });*/}
+                    {/*    }}*/}
+                    {/*    okText="zamknij"*/}
+                    {/*    onCancel={() => this.setState({ showModalDost: false })}*/}
+                    {/*>*/}
+                    {/*    <div className="QRcode">*/}
+
+                    {/*    </div>*/}
+                    {/*</Modal>*/}
+
                 </div>
             </Content>
         )

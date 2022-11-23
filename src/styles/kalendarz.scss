@@ -17,6 +17,23 @@
 
   }
 
+  .rbc-time-view .rbc-allday-cell {
+    padding-top: 5px;
+    //min-height: inherit;
+  }
+
+  .rbc-allday-cell .rbc-event-allday{
+    max-height: none !important;
+  }
+
+  .rbc-time-header-gutter{
+    display: none;
+  }
+
+  .rbc-time-view{
+    flex: none;
+  }
+
   .rbc-selected-cell{
     background: #4CAF50 !important;
   }
