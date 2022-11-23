@@ -5,19 +5,25 @@ export default class app_routes{
             icon: "fa fa-calendar",
             name: "Kalendarz",
             url:"/kalendarz",
-            nested:false,
+            admin: false,
+        },
+        {
+            icon: "fa fa-users",
+            name: "Użytkownicy",
+            url:"/uzytkownicy",
+            admin: true,
         },
         {
             icon: "fa fa-cog",
             name: "Ustawienia",
             url:"/ustawienia",
-            nested:false,
+            admin: false,
         },
         {
             icon: "fa fa-info",
             name: "Informacje",
             url:"/info",
-            nested:false,
+            admin: false,
         },
 
     ]}

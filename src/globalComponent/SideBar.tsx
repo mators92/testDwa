@@ -3,7 +3,9 @@ import app_routes from "../configuration/app_routes";
 // @ts-ignore
 import {Link} from "react-router-dom";
 import {Col, Row} from "react-bootstrap";
-import {getImieNazwisko} from "../Serwis";
+import {getImieNazwisko, isAdmin} from "../Serwis";
+import { UserOutlined } from '@ant-design/icons';
+import {Avatar} from "antd";
 
 export default class SideBar extends React.Component {
 
@@ -24,12 +26,27 @@ export default class SideBar extends React.Component {
 
                 <div className={'sidebar'}>
                     <div id={'sidebar-header'}>
+                        <Avatar size="small" icon={<UserOutlined />} style={{marginRight: '15px'}}/>
                         <span>{getImieNazwisko()}</span>
                     </div>
                     {
                         app_routes.APP_ROUTES().map((item: any) => (
+                            (item.admin)?
+                                (isAdmin())&&
+                                    <div>
+                                        <div className={'menuItems'}>
+                                            <Link to={item.url}>
+                                                <div className={(window.location.pathname === item.url) ? 'current' : ""}
+                                                     onClick={() => {
+                                                         console.log("go to " + item.name)
+                                                     }}>
+                                                    <i className={item.icon}></i> {<span>{item.name}</span>}
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </div>
+                            :
                             <div>
-
                                 <div className={'menuItems'}>
                                     <Link to={item.url}>
                                         <div className={(window.location.pathname === item.url) ? 'current' : ""}
@@ -40,9 +57,8 @@ export default class SideBar extends React.Component {
                                         </div>
                                     </Link>
                                 </div>
-
-
                             </div>
+
                         ))
                     }
                 </div>

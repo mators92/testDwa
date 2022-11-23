@@ -2,6 +2,7 @@ import * as React from 'react'
 import {Link} from "react-router-dom";
 import logo from "./../logo.svg"
 import {login} from "../Serwis";
+import {message} from "antd";
 
 interface Props{
     //
@@ -35,10 +36,12 @@ export default class LoginView extends React.Component<Props, State> {
                 window.location.reload()
                 //this.props.history.push('/')
             } else {
-                console.log('error')
+                // console.log('error')
+                message.error('Error');
             }
         }).catch(error => {
-            console.log('Zle dane logowania');
+            // console.log('Zle dane logowania');
+            message.error('Złe dane logowania');
             // toast.error("Błąd logowania!");
         });
         //sessionStorage.setItem('sesjaUzytkownika', JSON.stringify(this.state))

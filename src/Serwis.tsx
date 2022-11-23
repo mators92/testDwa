@@ -80,6 +80,13 @@ export const getKalendarz = () => {
     })
 }
 
+export const getUzytkownicy = () => {
+    return axios({
+        method: 'get',
+        url: HOST_API + "uzytkownicy.php"
+    })
+}
+
 export const wyloguj = () => {
     sessionStorage.removeItem('sesjaUzytkownikaSystemuOSP')
     //window.location('/')

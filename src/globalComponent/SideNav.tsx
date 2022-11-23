@@ -3,6 +3,8 @@ import app_routes from "../configuration/app_routes";
 // @ts-ignore
 import {Link} from "react-router-dom";
 import {getImieNazwisko} from "../Serwis";
+import {UserOutlined} from "@ant-design/icons";
+import {Avatar} from "antd";
 
 export default class SideNav extends React.Component {
 
@@ -17,7 +19,8 @@ export default class SideNav extends React.Component {
             <div id="sidenav" className="sidenav">
                 <a className="closebtn" onClick={this.onClose}><i className={'fa fa-bars'}/></a>
                 <div id={'sidebar-header'}>
-                    <span style={{display: 'block'}}>{getImieNazwisko()}</span>
+                    <Avatar size="small" icon={<UserOutlined />} style={{marginRight: '15px'}}/>
+                    <span style={{display: 'inline-block'}}>{getImieNazwisko()}</span>
                     {/*<span>MENU</span>*/}
                 </div>
 
