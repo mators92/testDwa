@@ -2,7 +2,8 @@ import * as React from 'react'
 import Content from "../globalComponent/Content";
 import {Button, Col, Row} from "react-bootstrap";
 import './../styles/ustawienia.css';
-import {getNumer, login, scrollToTop, zmienHaslo} from "../Serwis";
+import {getNumer, getUzytkownik, login, scrollToTop, zmienHaslo, zmienPrawo} from "../Serwis";
+import {message, Radio, RadioChangeEvent, Spin} from "antd";
 
 interface Props {
 
@@ -12,7 +13,9 @@ interface State {
     stareHaslo: any,
     noweHaslo: any,
     repNoweHaslo: any,
-    czyNowe: boolean
+    czyNowe: boolean,
+    prawoJazdy: any,
+    loading: boolean
 }
 
 export default class UstawieniaView extends React.Component<Props, State> {
@@ -23,12 +26,25 @@ export default class UstawieniaView extends React.Component<Props, State> {
             stareHaslo: '',
             noweHaslo: '',
             repNoweHaslo: '',
-            czyNowe: false
+            czyNowe: false,
+            prawoJazdy: null,
+            loading: false
         }
     }
 
     componentDidMount() {
         scrollToTop();
+        this.pobierzUzytkownika();
+    }
+
+    pobierzUzytkownika = () => {
+        this.setState({loading: true});
+        getUzytkownik(getNumer()).then((response) => {
+            this.setState({prawoJazdy: (response.data[0].PRAW_C === '1')? 2 : 1, loading: false});
+        }).catch((e) => {
+            message.error('Error');
+            this.setState({loading: false});
+        })
     }
 
     czyNoweHaslo = () => {
@@ -56,13 +72,13 @@ export default class UstawieniaView extends React.Component<Props, State> {
                     noweHaslo: '',
                     repNoweHaslo: ''
                 });
-                // toast.success("Hasło zostało zmienione");
+                message.success('Hasło zostało zmienione');
                 //this.props.history.push('/')
             } else {
                 console.log('error')
             }
         }).catch(error => {
-            console.log('Zmiana hasla blad');
+            message.error('Zmiana hasla blad');
         });
     }
 
@@ -76,73 +92,102 @@ export default class UstawieniaView extends React.Component<Props, State> {
                     console.log('error')
                 }
             }).catch(error => {
-                console.log('Zle dane logowania');
-                // toast.error("Złe stare hasło!");
+                message.error('Złe stare hasło!');
             });
         }
         else
         {
-            // toast.error("Popraw nowe hasła!");
+            message.warn('Popraw nowe hasła!');
         }
     }
 
+    onChange = (e: RadioChangeEvent) => {
+        console.log('radio checked', e.target.value);
+        this.setState({prawoJazdy: e.target.value})
+
+        if(e.target.value === 1){
+            zmienPrawo(getNumer(), true, false).then((response) => {
+                message.success('Zmiana zapisana');
+            }).catch((e) => {
+                message.error('Error');
+            })
+        } else {
+            zmienPrawo(getNumer(), true, true).then((response) => {
+                message.success('Zmiana zapisana');
+            }).catch((e) => {
+                message.error('Error');
+            })
+        }
+    };
+
     render() {
-        let {stareHaslo, noweHaslo, repNoweHaslo} = this.state;
+        let {stareHaslo, noweHaslo, repNoweHaslo, prawoJazdy, loading} = this.state;
 
         return(
             <Content>
                 <div className={'ustawieniaPage'}>
                 <h2 style={{textAlign: 'center'}}>Ustawienia</h2>
 
-                <Row>
+                <h5>Prawo jazdy</h5>
+                <Row style={{paddingBottom: '15px'}}>
                     <Col>
-                        <h5>Zmiana hasła</h5>
+                        {loading? <Spin/> :
+                            <Radio.Group onChange={this.onChange} value={prawoJazdy}>
+                                <Radio value={1}>B</Radio>
+                                <Radio value={2}>B + C</Radio>
+                            </Radio.Group>
+                        }
+                    </Col>
+                </Row>
 
-                        <div className={"col-md-5"}>
-                            <label>Stare hasło:</label>
-                            <input
-                                className={"form-control"}
-                                //placeholder={'Podaj temat...'}
-                                // required
-                                type={"password"}
-                                value={stareHaslo}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onChangeStareHaslo(e.target.value)}
-                            />
-                        </div>
+                <Row>
 
-                        <div className={"col-md-5"}>
+                    <h5>Zmiana hasła</h5>
+
+                    <Col md={12}>
+                        <label>Stare hasło:</label>
+                        <input
+                            className={"inpUstawienia form-control"}
+                            //placeholder={'Podaj temat...'}
+                            // required
+                            type={"password"}
+                            value={stareHaslo}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onChangeStareHaslo(e.target.value)}
+                        />
+                    </Col>
+
+                    <Col md={12}>
                             <label>Nowe Hasło:</label>
                             <input
-                                className={"form-control"}
+                                className={"inpUstawienia form-control"}
                                 //placeholder={'Podaj temat...'}
                                 // required
                                 type={"password"}
                                 value={noweHaslo}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onChangeNoweHaslo(e.target.value)}
                             />
-                        </div>
+                    </Col>
 
-                        <div className={"col-md-5"}>
+                    <Col md={12}>
                             <label>Powtórz nowe hasło:</label>
                             <input
-                                className={"form-control"}
+                                className={"inpUstawienia form-control"}
                                 //placeholder={'Podaj temat...'}
                                 // required
                                 type={"password"}
                                 value={repNoweHaslo}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onChangeRepNoweHaslo(e.target.value)}
                             />
-                        </div>
                     </Col>
-                </Row>
-                <Row>
-                    <Col>
+
+                    <Col md={12}>
                         <div className={'btnZmianaHasla'}>
                             <Button variant={'primary'} size={'sm'} onClick={this.onZmien}>
                                 <><i className="fa fa-floppy-o" /> Zmień hasło</>
                             </Button>
                         </div>
                     </Col>
+
                 </Row>
 
                 </div>

@@ -87,6 +87,26 @@ export const getUzytkownicy = () => {
     })
 }
 
+export const getUzytkownik = (numer: any) => {
+    return axios({
+        method: 'get',
+        url: HOST_API + "uzytkownik.php/?numer="+numer
+    })
+}
+
+export const zmienPrawo = (numer: any, pb: boolean, pc: boolean) => {
+    return axios({
+        method: 'POST',
+        url: HOST_API + "updatePrawo.php",
+        headers: {"Content-Type": "text/plain"},
+        data: {
+            numer: numer,
+            pb: pb? 1 : 0,
+            pc: pc? 1 : 0
+        }
+    })
+}
+
 export const wyloguj = () => {
     sessionStorage.removeItem('sesjaUzytkownikaSystemuOSP')
     //window.location('/')

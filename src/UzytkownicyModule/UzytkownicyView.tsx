@@ -57,9 +57,15 @@ export default class UzytkownicyView extends React.Component<Props, State> {
                 // render: (text) => <a>{text}</a>,
             },
             {
-                title: 'PrawoJazdy C',
+                title: 'Prawko B',
+                dataIndex: 'PRAW_B',
+                key: 'prawB',
+                // render: (text) => <a>{text}</a>,
+            },
+            {
+                title: 'Prawko C',
                 dataIndex: 'PRAW_C',
-                key: 'praw',
+                key: 'prawC',
                 // render: (text) => <a>{text}</a>,
             }
         ]

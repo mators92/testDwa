@@ -129,21 +129,29 @@ export default class HomeView extends React.Component<Props, State> {
 
         let eventsPerDey = eve.filter((e: any) => moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD"));
 
-        return (eventsPerDey.length >= 4)
+        return (eventsPerDey.length === 4)
     }
 
     handleSelectSlot = (slot: any) => {
-        if(this.czyJuzZapisanyNaTenDzien(slot)) {
-            // alert('Już jesteś dyspozycyjny w tym dniu')
-            message.info('Już jesteś dyspozycyjny w tym dniu');
-        } else {
-            if(moment(slot.start).format("YYYY-MM-DD") >= moment().format("YYYY-MM-DD")){
-                this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+
+        if(moment(slot.start).format("YYYY-MM-DD") >= moment().format("YYYY-MM-DD")){
+
+            if(this.czyJuzZapisanyNaTenDzien(slot)) {
+                message.info('Już jesteś dyspozycyjny w tym dniu');
             } else {
-                // alert('Stara data!')
-                message.warn('Stara data! Wybierz inną datę.');
+
+                if(this.czySkladNaDzien(slot.start)){
+                    message.info('Już jest skład postawowy na ten dzień (4 osoby)');
+                } else {
+                    this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+                }
+
             }
+
+        } else {
+            message.warn('Stara data! Wybierz inną datę.');
         }
+
     }
 
     onClickZapisz = (data: any) => {
