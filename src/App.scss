@@ -554,7 +554,8 @@ div.content {
   top: 0;
   left: 0;
   //background: rgba(255, 255, 255, 0.8);
-  background: hsla(0,0%,78.4%,.85) !important;
+  //background: hsla(0,0%,78.4%,.85) !important;
+  background: rgba(0, 0, 0, 0.45) !important;
 
   .popup-element {
     width: 95vw;
