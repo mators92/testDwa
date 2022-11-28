@@ -1,9 +1,10 @@
 import * as React from 'react'
 import Content from "../globalComponent/Content";
-import {dodajUzytkownika, getUzytkownicy, isEmpty, scrollToTop} from "../Serwis";
+import {delUser, dodajUzytkownika, getUzytkownicy, isEmpty, scrollToTop} from "../Serwis";
 import {Button, message, Modal, Table} from "antd";
 import './../styles/uzytkownicy.css';
-import {UserAddOutlined} from '@ant-design/icons';
+import {UserAddOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import {ButtonToolbar} from "react-bootstrap";
 
 interface Props{
 
@@ -84,6 +85,25 @@ export default class UzytkownicyView extends React.Component<Props, State> {
 
     }
 
+    onDelete = (nr: any) => {
+
+        if (window.confirm('Czy na pewno usunąć użytkownika?')){
+            delUser(nr).then((response) => {
+                message.success('Usunięto użytkownika');
+                this.pobierzUzytkownikow();
+            }).catch((e) => {
+                message.error('Error');
+            })
+        } else {
+
+        }
+
+    }
+
+    onEdit = (nr: any) => {
+        alert('W budowie...');
+    }
+
     render() {
         let {uzytkownicy, showModalDodaj, imie, nazwisko, numer} = this.state;
 
@@ -117,6 +137,26 @@ export default class UzytkownicyView extends React.Component<Props, State> {
                 dataIndex: 'PRAW_C',
                 key: 'prawC',
                 // render: (text) => <a>{text}</a>,
+            },
+            {
+                title: 'Akcje',
+                dataIndex: 'NUMER',
+                key: 'akcja',
+                width: '150px',
+                render: (nr: any) => <ButtonToolbar className={'TableButtons'}>
+                    <Button onClick={() => this.onEdit(nr)}
+                            title={'Kliknij aby edytować użytkownika'}
+                            className={'edit'}
+                    >
+                        <EditOutlined />
+                    </Button>
+                    <Button onClick={() => this.onDelete(nr)}
+                            title={'Kliknij aby usunąć użytkownika'}
+                            className={'delete'}
+                    >
+                        <DeleteOutlined />
+                    </Button>
+                </ButtonToolbar>,
             }
         ]
 

@@ -120,6 +120,17 @@ export const dodajUzytkownika = (imie: string, nazwisko: string, numer: string) 
     })
 }
 
+export const delUser = (numer: string) => {
+    return axios({
+        method: 'delete',
+        url: HOST_API + "deleteuser.php",
+        headers: {"Content-Type": "text/plain"},
+        data: {
+            numer: numer
+        }
+    })
+}
+
 export const wyloguj = () => {
     sessionStorage.removeItem('sesjaUzytkownikaSystemuOSP')
     //window.location('/')

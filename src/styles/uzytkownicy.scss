@@ -15,6 +15,17 @@
   .anticon{
     vertical-align: unset;
   }
+
+  .TableButtons{
+    .edit{
+      color: dodgerblue;
+    }
+
+    .delete{
+      color: red;
+      margin-left: 5px;
+    }
+  }
 }
 
 .dodajModal{
