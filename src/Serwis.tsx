@@ -107,6 +107,19 @@ export const zmienPrawo = (numer: any, pb: boolean, pc: boolean) => {
     })
 }
 
+export const dodajUzytkownika = (imie: string, nazwisko: string, numer: string) => {
+    return axios({
+        method: 'post',
+        url: HOST_API + "insertuser.php",
+        headers: {"Content-Type": "text/plain"},
+        data: {
+            imie: imie,
+            nazwisko: nazwisko,
+            numer: numer
+        }
+    })
+}
+
 export const wyloguj = () => {
     sessionStorage.removeItem('sesjaUzytkownikaSystemuOSP')
     //window.location('/')
@@ -124,4 +137,8 @@ export const scrollToTop = () => {
         }
         else clearInterval(scrollInterval);
     }, 10);
+}
+
+export const isEmpty = (value: any) => {
+    return value === undefined || value === null || value === '' || value === 'null';
 }

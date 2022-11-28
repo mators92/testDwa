@@ -16,3 +16,14 @@
     vertical-align: unset;
   }
 }
+
+.dodajModal{
+  label{
+
+    &:first-of-type{
+      margin-top: 0;
+    }
+
+    margin: 10px 0 0 0;
+  }
+}

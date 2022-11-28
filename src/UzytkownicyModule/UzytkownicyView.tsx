@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Content from "../globalComponent/Content";
-import {getUzytkownicy, scrollToTop} from "../Serwis";
+import {dodajUzytkownika, getUzytkownicy, isEmpty, scrollToTop} from "../Serwis";
 import {Button, message, Modal, Table} from "antd";
 import './../styles/uzytkownicy.css';
 import {UserAddOutlined} from '@ant-design/icons';
@@ -63,6 +63,27 @@ export default class UzytkownicyView extends React.Component<Props, State> {
         this.setState({ showModalDodaj: false, imie: '', nazwisko: '', numer: '' });
     }
 
+    onDodaj = () => {
+        let {imie, nazwisko, numer} = this.state;
+        let ok = true;
+
+        if(isEmpty(imie) || isEmpty(nazwisko) || isEmpty(numer)){
+            ok = false;
+            message.warn('Uzupełnij pola!');
+        }
+
+        if(ok) {
+            dodajUzytkownika(imie, nazwisko, numer).then((response) => {
+                message.success("Dodano użytkownika");
+                this.pobierzUzytkownikow();
+            }).catch((e) => {
+                message.error('Error');
+            })
+            this.onCancelModal();
+        }
+
+    }
+
     render() {
         let {uzytkownicy, showModalDodaj, imie, nazwisko, numer} = this.state;
 
@@ -110,13 +131,12 @@ export default class UzytkownicyView extends React.Component<Props, State> {
                     // className="QRModal"
                     title="Dodaj użytkownika"
                     visible={showModalDodaj}
-                    onOk={() => {
-                        this.setState({ showModalDodaj: false });
-                    }}
-                    okText="zamknij"
+                    onOk={this.onDodaj}
+                    okText="Dodaj"
+                    cancelText={'Anuluj'}
                     onCancel={this.onCancelModal}
                 >
-                    <div className="QRcode">
+                    <div className="dodajModal">
                         <label>Imię:</label>
                         <input
                             className={"inpUstawienia form-control"}
