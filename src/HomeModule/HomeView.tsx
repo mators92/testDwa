@@ -75,6 +75,7 @@ export default class HomeView extends React.Component<Props, State> {
                 start: new Date(item.data_gotowosci),
                 end: new Date(item.data_gotowosci),
                 allDay: true,
+                c: item.PRAW_C
             }
         });
 
@@ -132,6 +133,28 @@ export default class HomeView extends React.Component<Props, State> {
         return (eventsPerDey.length === 4)
     }
 
+    czyJestNaC = (data: any) => {
+        let eve = this.state.events;
+        let czyJest = false;
+
+        let eventsPerDey = eve.filter((e: any) => moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD"));
+
+        let c = eventsPerDey.filter((e: any) => e.c === '1');
+        if(c.length >= 1){
+            czyJest = true;
+        }
+
+        return czyJest
+    }
+
+    ileOsob = (data: any) => {
+        let eve = this.state.events;
+
+        let eventsPerDey = eve.filter((e: any) => moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD"));
+
+        return eventsPerDey.length
+    }
+
     handleSelectSlot = (slot: any) => {
 
         if(moment(slot.start).format("YYYY-MM-DD") >= moment().format("YYYY-MM-DD")){
@@ -143,7 +166,15 @@ export default class HomeView extends React.Component<Props, State> {
                 if(this.czySkladNaDzien(slot.start)){
                     message.info('Już jest skład postawowy na ten dzień (4 osoby)');
                 } else {
-                    this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+                    if(this.ileOsob(slot.start) === 3){
+                        if(this.czyJestNaC(slot.start)){
+                            this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+                        } else {
+                            message.warning('Potrzebna osoba z kat C');
+                        }
+                    } else {
+                        this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+                    }
                 }
 
             }
@@ -168,6 +199,26 @@ export default class HomeView extends React.Component<Props, State> {
 
     onChangeView = (newView: any) => {
         this.setState({view: newView});
+    }
+
+    eventStyleGetter = (event: any, start: any, end: any, isSelected: any) => {
+        console.log(event);
+        var backgroundColor = '';
+
+        if(event.c === '1'){
+            backgroundColor = '#5e5e5e'
+        }
+
+        var style = {
+            backgroundColor: backgroundColor,
+            // borderRadius: '0px',
+            // opacity: 0.8,
+            // color: 'black',
+            // border: '0px',
+            // display: 'block'
+        };
+
+        return {style: style};
     }
 
     render() {
@@ -200,19 +251,6 @@ export default class HomeView extends React.Component<Props, State> {
                     backgroundColor: this.czySkladNaDzien(value) ? 'lightgreen' : (moment().format("YYYY-MM-DD") < moment(value).format("YYYY-MM-DD"))? '#f5aaaa' : '',
                 },
             }
-
-            // const newChildren = { ...children };
-            // console.log(children)
-            // newChildren.props.style = {background: '#750000'}
-            // const newChildrenProps = { ...newChildren.props };
-
-            // console.log(newChildrenProps)
-            // newChildrenProps.className = 'test';
-            // newChildrenProps.className = `${newChildrenProps.className} outline-none border-none  bg-red-500`;
-            // newChildren.props = { ...newChildrenProps };
-
-            // return <div>{newChildren}</div>;
-            // return <div>{newChildren}</div>;
         )};
 
         return(
@@ -252,6 +290,7 @@ export default class HomeView extends React.Component<Props, State> {
                     onSelectSlot={(slotInfo) => this.handleSelectSlot(slotInfo)}
 
                     components={{dateCellWrapper: EventWrapperComponent}}
+                    eventPropGetter={this.eventStyleGetter}
 
                     // components={{
                     //     event: this.formatEvent,
