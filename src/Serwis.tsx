@@ -20,6 +20,14 @@ export const isAdmin = () => {
     }
 }
 
+export const czyMamC = () => {
+    if (JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).c === '1'){
+        return true
+    } else {
+        return false
+    }
+}
+
 export const getImieNazwisko = () => {
     if (sessionStorage.sesjaUzytkownikaSystemuOSP !== undefined){
         return JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).imie + ' ' + JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).nazwisko

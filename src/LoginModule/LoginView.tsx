@@ -32,7 +32,7 @@ export default class LoginView extends React.Component<Props, State> {
                 console.log(res)
                 let data = res.data
                 data.password = this.state.password
-                sessionStorage.setItem('sesjaUzytkownikaSystemuOSP', JSON.stringify({imie: res.data[0].IMIE, nazwisko: res.data[0].NAZWISKO, numer: this.state.login, dostep: res.data[0].DOSTEP}))
+                sessionStorage.setItem('sesjaUzytkownikaSystemuOSP', JSON.stringify({imie: res.data[0].IMIE, nazwisko: res.data[0].NAZWISKO, numer: this.state.login, dostep: res.data[0].DOSTEP, c: res.data[0].PRAW_C}))
                 window.location.reload()
                 //this.props.history.push('/')
             } else {

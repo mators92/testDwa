@@ -5,7 +5,7 @@ export default class AppConfiguration{
     }
 
     static APP_VER(){
-        return "v1.32"
+        return "v1.33"
     }
 
     static APP_UPDATE(){

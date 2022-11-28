@@ -9,7 +9,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "moment/locale/pl";
 import PopupWrapper from "../globalComponent/PopupWrapper";
 import DodajDyspozycyjnosc from "./DodajDyspozycyjnosc";
-import {dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
+import {czyMamC, dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
 import {Modal, message} from "antd";
 import "antd/dist/antd.css";
 // import {Children} from "react";
@@ -167,7 +167,7 @@ export default class HomeView extends React.Component<Props, State> {
                     message.info('Już jest skład postawowy na ten dzień (4 osoby)');
                 } else {
                     if(this.ileOsob(slot.start) === 3){
-                        if(this.czyJestNaC(slot.start)){
+                        if(this.czyJestNaC(slot.start) || czyMamC()){
                             this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
                         } else {
                             message.warning('Potrzebna osoba z kat C');
