@@ -28,6 +28,10 @@ export const czyMamC = () => {
     }
 }
 
+export const getSesja = () => {
+    return JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP)
+}
+
 export const getImieNazwisko = () => {
     if (sessionStorage.sesjaUzytkownikaSystemuOSP !== undefined){
         return JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).imie + ' ' + JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).nazwisko

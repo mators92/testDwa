@@ -2,7 +2,7 @@ import * as React from 'react'
 import Content from "../globalComponent/Content";
 import {Button, Col, Row} from "react-bootstrap";
 import './../styles/ustawienia.css';
-import {getNumer, getUzytkownik, login, scrollToTop, zmienHaslo, zmienPrawo} from "../Serwis";
+import {getNumer, getSesja, getUzytkownik, login, scrollToTop, zmienHaslo, zmienPrawo} from "../Serwis";
 import {message, Radio, RadioChangeEvent, Spin} from "antd";
 
 interface Props {
@@ -102,18 +102,25 @@ export default class UstawieniaView extends React.Component<Props, State> {
     }
 
     onChange = (e: RadioChangeEvent) => {
-        console.log('radio checked', e.target.value);
+        // console.log('radio checked', e.target.value);
         this.setState({prawoJazdy: e.target.value})
+
+        // console.log(getSesja())
+        let ses = getSesja();
 
         if(e.target.value === 1){
             zmienPrawo(getNumer(), true, false).then((response) => {
                 message.success('Zmiana zapisana');
+                ses.c = '0';
+                sessionStorage.setItem('sesjaUzytkownikaSystemuOSP', JSON.stringify(ses));
             }).catch((e) => {
                 message.error('Error');
             })
         } else {
             zmienPrawo(getNumer(), true, true).then((response) => {
                 message.success('Zmiana zapisana');
+                ses.c = '1';
+                sessionStorage.setItem('sesjaUzytkownikaSystemuOSP', JSON.stringify(ses));
             }).catch((e) => {
                 message.error('Error');
             })
