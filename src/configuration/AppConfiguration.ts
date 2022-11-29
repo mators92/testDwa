@@ -5,11 +5,11 @@ export default class AppConfiguration{
     }
 
     static APP_VER(){
-        return "v1.34"
+        return "v1.35"
     }
 
     static APP_UPDATE(){
-        return "2022-11-29 11:40"
+        return "2022-11-29 13:05"
     }
 
     static APP_UPDATE_SHORT(){

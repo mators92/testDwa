@@ -248,7 +248,17 @@ export default class HomeView extends React.Component<Props, State> {
         return React.cloneElement(Children.only(children), {
                 style: {
                     ...children.style,
-                    backgroundColor: this.czySkladNaDzien(value) ? 'lightgreen' : (moment().format("YYYY-MM-DD") < moment(value).format("YYYY-MM-DD"))? '#f5aaaa' : '',
+                    background: (moment().format("YYYY-MM-DD") <= moment(value).format("YYYY-MM-DD")) ?
+                        (moment().format("YYYY-MM-DD") === moment(value).format("YYYY-MM-DD")) ?
+                            this.czySkladNaDzien(value) ? 'linear-gradient(45deg, rgba(144,238,144,1) 36%, rgba(144,238,144,1) 60%, rgba(255,249,7,1) 100%)' : 'linear-gradient(45deg, rgba(255,59,59,1) 40%, rgba(255,59,59,1) 70%, rgba(255,249,7,1) 100%)'
+                            :
+                            this.czySkladNaDzien(value) ? 'lightgreen' : '#f5aaaa'
+                        :
+                        '',
+                    // backgroundColor: this.czySkladNaDzien(value) ?
+                    //     (moment().format("YYYY-MM-DD") <= moment(value).format("YYYY-MM-DD"))? 'lightgreen' : ''
+                    //     :
+                    //     (moment().format("YYYY-MM-DD") <= moment(value).format("YYYY-MM-DD"))? '#f5aaaa' : '',
                 },
             }
         )};
