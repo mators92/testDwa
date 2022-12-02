@@ -10,7 +10,7 @@ import "moment/locale/pl";
 import PopupWrapper from "../globalComponent/PopupWrapper";
 import DodajDyspozycyjnosc from "./DodajDyspozycyjnosc";
 import {czyMamC, dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
-import {Modal, message} from "antd";
+import {Modal, message, Alert} from "antd";
 import "antd/dist/antd.css";
 // import {Children} from "react";
 
@@ -278,6 +278,9 @@ export default class HomeView extends React.Component<Props, State> {
                 {/*</Box>*/}
 
                 <div className={'kalendarzModule'}>
+                    {(!this.czySkladNaDzien(moment().format('YYYY-MM-DD'))) &&
+                        <Alert message="Pełna mobilizacja! Brak podstawowego składu." type="error" className={'alertBrakSkladu'}/>
+                    }
                 <Calendar
                     style={{minHeight: '500px'}}
                     culture='pl'
