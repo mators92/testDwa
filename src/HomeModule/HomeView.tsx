@@ -164,7 +164,7 @@ export default class HomeView extends React.Component<Props, State> {
             } else {
 
                 if(this.czySkladNaDzien(slot.start)){
-                    message.info('Już jest skład postawowy na ten dzień (4 osoby)');
+                    message.info('Już jest skład podstawowy na ten dzień');
                 } else {
                     if(this.ileOsob(slot.start) === 3){
                         if(this.czyJestNaC(slot.start) || czyMamC()){
@@ -191,9 +191,9 @@ export default class HomeView extends React.Component<Props, State> {
             this.pobierzEventy();
             message.success('Dodano dyspozycyjność');
         }).catch((e) => {
-            // console.log('error');
+            //console.log('ok')
             this.setState({showFormularz: false});
-            message.error('Błąd zapisu!');
+            message.error(e.response.data);
         })
     }
 
@@ -202,7 +202,7 @@ export default class HomeView extends React.Component<Props, State> {
     }
 
     eventStyleGetter = (event: any, start: any, end: any, isSelected: any) => {
-        console.log(event);
+        // console.log(event);
         var backgroundColor = '';
 
         if(event.c === '1'){
