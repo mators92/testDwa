@@ -25,9 +25,9 @@ export default class Footer extends React.Component {
                     <span id={'f-ver'}>
                     {AppConfiguration.APP_VER()}
                     </span>
-                    <span id={'f-topsa'}>
-                        by <a href={"http://topsa.com.pl"} target={"_blank"}>topsa.com.pl</a>
-                    </span>
+                    {/*<span id={'f-topsa'}>*/}
+                    {/*    by <a href={"http://topsa.com.pl"} target={"_blank"}>topsa.com.pl</a>*/}
+                    {/*</span>*/}
                 </div>
             </div>
         )

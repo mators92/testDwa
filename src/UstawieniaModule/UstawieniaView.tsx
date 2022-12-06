@@ -112,7 +112,7 @@ export default class UstawieniaView extends React.Component<Props, State> {
             zmienPrawo(getNumer(), true, false).then((response) => {
                 message.success('Zmiana zapisana');
                 ses.c = '0';
-                sessionStorage.setItem('sesjaUzytkownikaSystemuOSP', JSON.stringify(ses));
+                localStorage.setItem('sesjaUzytkownikaSystemuOSP', JSON.stringify(ses));
             }).catch((e) => {
                 message.error('Error');
             })
@@ -120,7 +120,7 @@ export default class UstawieniaView extends React.Component<Props, State> {
             zmienPrawo(getNumer(), true, true).then((response) => {
                 message.success('Zmiana zapisana');
                 ses.c = '1';
-                sessionStorage.setItem('sesjaUzytkownikaSystemuOSP', JSON.stringify(ses));
+                localStorage.setItem('sesjaUzytkownikaSystemuOSP', JSON.stringify(ses));
             }).catch((e) => {
                 message.error('Error');
             })

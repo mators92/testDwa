@@ -5,7 +5,7 @@ import moment from "moment";
 const HOST_API = 'https://osp.netserwer.pl/';
 
 export const isLogged = () => {
-    if (sessionStorage.sesjaUzytkownikaSystemuOSP !== undefined){
+    if (localStorage.sesjaUzytkownikaSystemuOSP !== undefined){
         return true
     } else {
         return false
@@ -13,7 +13,7 @@ export const isLogged = () => {
 }
 
 export const isAdmin = () => {
-    if (JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).dostep === '1'){
+    if (JSON.parse(localStorage.sesjaUzytkownikaSystemuOSP).dostep === '1'){
         return true
     } else {
         return false
@@ -21,7 +21,7 @@ export const isAdmin = () => {
 }
 
 export const czyMamC = () => {
-    if (JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).c === '1'){
+    if (JSON.parse(localStorage.sesjaUzytkownikaSystemuOSP).c === '1'){
         return true
     } else {
         return false
@@ -29,20 +29,20 @@ export const czyMamC = () => {
 }
 
 export const getSesja = () => {
-    return JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP)
+    return JSON.parse(localStorage.sesjaUzytkownikaSystemuOSP)
 }
 
 export const getImieNazwisko = () => {
-    if (sessionStorage.sesjaUzytkownikaSystemuOSP !== undefined){
-        return JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).imie + ' ' + JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).nazwisko
+    if (localStorage.sesjaUzytkownikaSystemuOSP !== undefined){
+        return JSON.parse(localStorage.sesjaUzytkownikaSystemuOSP).imie + ' ' + JSON.parse(localStorage.sesjaUzytkownikaSystemuOSP).nazwisko
     } else {
         return ''
     }
 }
 
 export const getNumer = () => {
-    if (sessionStorage.sesjaUzytkownikaSystemuOSP !== undefined){
-        return JSON.parse(sessionStorage.sesjaUzytkownikaSystemuOSP).numer
+    if (localStorage.sesjaUzytkownikaSystemuOSP !== undefined){
+        return JSON.parse(localStorage.sesjaUzytkownikaSystemuOSP).numer
     } else {
         return ''
     }
@@ -144,7 +144,7 @@ export const delUser = (numer: string) => {
 }
 
 export const wyloguj = () => {
-    sessionStorage.removeItem('sesjaUzytkownikaSystemuOSP')
+    localStorage.removeItem('sesjaUzytkownikaSystemuOSP')
     //window.location('/')
     //window.location.reload()
     window.location.replace('/')

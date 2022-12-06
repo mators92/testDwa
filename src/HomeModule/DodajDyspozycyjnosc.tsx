@@ -167,7 +167,7 @@ class DodajDyspozycyjnosc extends Component<Props, State> {
                 <Form>
                     <Row>
                         <Col>
-                            <p>Czy jesteś dyspozycyjny w dniu {dyspozycja} w godzinach 06:00 - 18:00?</p>
+                            <p>Czy jesteś dyspozycyjny w dniu <b>{dyspozycja}</b> w godzinach <b>06:00 - 18:00</b> oraz czy czas dojazdu do remizy to max <b>10min</b>?</p>
                         </Col>
                     </Row>
 
