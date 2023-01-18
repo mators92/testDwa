@@ -5,11 +5,11 @@ export default class AppConfiguration{
     }
 
     static APP_VER(){
-        return "v1.40"
+        return "v1.41"
     }
 
     static APP_UPDATE(){
-        return "2022-12-06"
+        return "2023-01-18"
     }
 
     static APP_UPDATE_SHORT(){
@@ -17,7 +17,11 @@ export default class AppConfiguration{
     }
 
     static HOST_API(){
-        return 'https://osp.netserwer.pl/'
+        if(window.location.origin.indexOf('localhost') > -1){
+            return 'https://osp.netserwer.pl/'
+        } else {
+            return `https://dyzury.osprzeszowslocina.pl/`
+        }
     }
 
 }

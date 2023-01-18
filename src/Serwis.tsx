@@ -1,8 +1,8 @@
 import axios from "axios";
 import moment from "moment";
-// import HOST_API from "./configuration/AppConfiguration";
+import AppConfiguration from "./configuration/AppConfiguration";
 
-const HOST_API = 'https://osp.netserwer.pl/';
+const HOST_API = AppConfiguration.HOST_API();
 
 export const isLogged = () => {
     if (localStorage.sesjaUzytkownikaSystemuOSP !== undefined){

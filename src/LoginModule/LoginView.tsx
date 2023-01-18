@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import logo from "./../logo.svg"
 import {login} from "../Serwis";
 import {message} from "antd";
+import AppConfiguration from "../configuration/AppConfiguration";
 
 interface Props{
     //
@@ -66,6 +67,11 @@ export default class LoginView extends React.Component<Props, State> {
                 <div className={'loginComponent'}>
                     {/*<img src={logo} alt={'logo'} className={'logo'} style={{width: '320px'}}/>*/}
                     <h1>OSP Rzeszów - Słocina</h1>
+                    <div style={{textAlign: 'center'}}>
+                        <span style={{textAlign: 'center'}}>
+                    {AppConfiguration.APP_VER()}
+                    </span>
+                    </div>
                     <div className={'loginContainer'}>
                         <form onSubmit={this.onSubmit}>
                             <label>Login:</label>
