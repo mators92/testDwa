@@ -2,7 +2,7 @@ import * as React from 'react'
 import app_routes from "../configuration/app_routes";
 // @ts-ignore
 import {Link} from "react-router-dom";
-import {getImieNazwisko} from "../Serwis";
+import {getImieNazwisko, isAdmin} from "../Serwis";
 import {UserOutlined} from "@ant-design/icons";
 import {Avatar} from "antd";
 
@@ -29,21 +29,33 @@ export default class SideNav extends React.Component {
                     <a className="closebtn" onClick={this.onClose}><i className={'fa fa-bars'}/></a>
                     {
                         app_routes.APP_ROUTES().map((item: any) => (
-                            <div>
-
-                                <div className={'menuItems'}>
-                                    <Link to={item.url}>
-                                        <div className={(window.location.pathname === item.url) ? 'current' : ""}
-                                             onClick={() => {
-                                                 console.log("go to " + item.name)
-                                             }}>
-                                            <i className={item.icon}></i> {<span>{item.name}</span>}
-                                        </div>
-                                    </Link>
+                            (item.admin)?
+                                (isAdmin())&&
+                                <div>
+                                    <div className={'menuItems'}>
+                                        <Link to={item.url}>
+                                            <div className={(window.location.pathname === item.url) ? 'current' : ""}
+                                                 onClick={() => {
+                                                     console.log("go to " + item.name)
+                                                 }}>
+                                                <i className={item.icon}></i> {<span>{item.name}</span>}
+                                            </div>
+                                        </Link>
+                                    </div>
                                 </div>
-
-
-                            </div>
+                                :
+                                <div>
+                                    <div className={'menuItems'}>
+                                        <Link to={item.url}>
+                                            <div className={(window.location.pathname === item.url) ? 'current' : ""}
+                                                 onClick={() => {
+                                                     console.log("go to " + item.name)
+                                                 }}>
+                                                <i className={item.icon}></i> {<span>{item.name}</span>}
+                                            </div>
+                                        </Link>
+                                    </div>
+                                </div>
                         ))
                     }
                 </div>

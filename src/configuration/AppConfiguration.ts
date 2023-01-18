@@ -5,7 +5,7 @@ export default class AppConfiguration{
     }
 
     static APP_VER(){
-        return "v1.41"
+        return "v1.42"
     }
 
     static APP_UPDATE(){
@@ -17,7 +17,7 @@ export default class AppConfiguration{
     }
 
     static HOST_API(){
-        if(window.location.origin.indexOf('localhost') > -1){
+        if((window.location.origin.indexOf('localhost') > -1) || (window.location.origin.indexOf('10.10.10.92') > -1)){
             return 'https://osp.netserwer.pl/'
         } else {
             return `https://dyzury.osprzeszowslocina.pl/`
