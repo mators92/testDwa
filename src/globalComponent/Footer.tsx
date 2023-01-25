@@ -17,7 +17,7 @@ export default class Footer extends React.Component {
                         {/*<img src={icon} />*/}
                     </span>
                     <span id={'f-name'}>
-                        {AppConfiguration.APP_NAME()}
+                        <a href={'https://www.osprzeszowslocina.pl/'} target="_blank">{AppConfiguration.APP_NAME()}</a>
                     </span>
                     <span id={'f-update'}>
                     {AppConfiguration.APP_UPDATE()}

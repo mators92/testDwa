@@ -5,11 +5,11 @@ export default class AppConfiguration{
     }
 
     static APP_VER(){
-        return "v1.42"
+        return "v1.43"
     }
 
     static APP_UPDATE(){
-        return "2023-01-18"
+        return "2023-01-25"
     }
 
     static APP_UPDATE_SHORT(){
@@ -17,11 +17,13 @@ export default class AppConfiguration{
     }
 
     static HOST_API(){
-        if((window.location.origin.indexOf('localhost') > -1) || (window.location.origin.indexOf('10.10.10.92') > -1)){
-            return 'https://osp.netserwer.pl/'
-        } else {
-            return `https://dyzury.osprzeszowslocina.pl/`
-        }
+        return `https://dyzury.osprzeszowslocina.pl/`
+
+        // if((window.location.origin.indexOf('localhost') > -1) || (window.location.origin.indexOf('10.10.10.92') > -1)){
+        //     return 'https://osp.netserwer.pl/'
+        // } else {
+        //     return `https://dyzury.osprzeszowslocina.pl/`
+        // }
     }
 
 }
