@@ -10,7 +10,7 @@ import "moment/locale/pl";
 import PopupWrapper from "../globalComponent/PopupWrapper";
 import DodajDyspozycyjnosc from "./DodajDyspozycyjnosc";
 import {czyMamC, dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
-import {Modal, message, Alert} from "antd";
+import {Modal, message, Alert, Row} from "antd";
 import "antd/dist/antd.css";
 // import {Children} from "react";
 
@@ -204,13 +204,35 @@ export default class HomeView extends React.Component<Props, State> {
     eventStyleGetter = (event: any, start: any, end: any, isSelected: any) => {
         // console.log(event);
         var backgroundColor = '';
+        // var color = '';
+        // var border = '';
 
         if(event.c === '1'){
             backgroundColor = '#5e5e5e'
         }
 
+        if(event.id === getNumer()){
+            backgroundColor = '#d97b02'
+        }
+
+        // if(moment().format("YYYY-MM-DD") <= moment(event.start).format("YYYY-MM-DD")){
+        //     if(event.c === '1'){
+        //         backgroundColor = '#5e5e5e'
+        //     }
+        //
+        //     if(event.id === getNumer()){
+        //         backgroundColor = '#d97b02'
+        //     }
+        // } else {
+        //     backgroundColor = 'rgba(171,171,171,0.45)'
+        //     color = '#888888'
+        //     border = '1px solid #888888'
+        // }
+
         var style = {
             backgroundColor: backgroundColor,
+            // color: color,
+            // border: border
             // borderRadius: '0px',
             // opacity: 0.8,
             // color: 'black',
@@ -318,6 +340,21 @@ export default class HomeView extends React.Component<Props, State> {
                     //     }
                     // }}
                     localizer={localizer}/>
+
+                    <div className={'legenda'}>
+                        <div className={'kolor'}>
+                            <div className={'kd kolorJ'}/>
+                            <label>Ja</label>
+                        </div>
+                        <div className={'kolor'}>
+                            <div className={'kd kolorR'}/>
+                            <label>Ratownik</label>
+                        </div>
+                        <div className={'kolor'}>
+                            <div className={'kd kolorC'}/>
+                            <label>Kierowca C</label>
+                        </div>
+                    </div>
 
                     {
                         showFormularz &&
