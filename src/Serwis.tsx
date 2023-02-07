@@ -72,6 +72,17 @@ export const dodajDyspozycyjnosc = (numer: any, kiedy: any) => {
     })
 }
 
+export const delEvent = (id: string) => {
+    return axios({
+        method: 'delete',
+        url: HOST_API + "deleteEvent.php",
+        headers: {"Content-Type": "text/plain"},
+        data: {
+            id: id
+        }
+    })
+}
+
 export const zmienHaslo = (nowe: any) => {
     return axios({
         method: 'post',

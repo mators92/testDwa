@@ -9,7 +9,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "moment/locale/pl";
 import PopupWrapper from "../globalComponent/PopupWrapper";
 import DodajDyspozycyjnosc from "./DodajDyspozycyjnosc";
-import {czyMamC, dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
+import {czyMamC, delEvent, dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
 import {Modal, message, Alert, Row} from "antd";
 import "antd/dist/antd.css";
 // import {Children} from "react";
@@ -28,8 +28,9 @@ interface State {
     loader: boolean,
     showFormularz: boolean,
     dyspozycja: any,
+    dyspozycjaId: any,
     view: any,
-    showModalDost: boolean
+    showModalUsun: boolean
 }
 
 export default class HomeView extends React.Component<Props, State> {
@@ -46,8 +47,9 @@ export default class HomeView extends React.Component<Props, State> {
             loader: false,
             showFormularz: false,
             dyspozycja: null,
+            dyspozycjaId: null,
             view: 'month',
-            showModalDost: false
+            showModalUsun: false
         }
     }
 
@@ -69,7 +71,8 @@ export default class HomeView extends React.Component<Props, State> {
         let arr = Array.from(response, (item: any) => {
 
             return {
-                id: item.numer,
+                id: item.ID,
+                numer: item.numer,
                 title: item.IMIE + ' ' + item.NAZWISKO,
                 desc: 'description',
                 start: new Date(item.data_gotowosci),
@@ -118,8 +121,8 @@ export default class HomeView extends React.Component<Props, State> {
 
         console.log(eventsPerDey)
         eventsPerDey.forEach((e: any) => {
-            if(e.id === getNumer())
-                czyJest = true
+            if(e.numer === getNumer())
+                czyJest = e.id
         })
 
         return czyJest
@@ -156,11 +159,18 @@ export default class HomeView extends React.Component<Props, State> {
     }
 
     handleSelectSlot = (slot: any) => {
+        // console.log(slot)
 
         if(moment(slot.start).format("YYYY-MM-DD") >= moment().format("YYYY-MM-DD")){
+            let id = this.czyJuzZapisanyNaTenDzien(slot)
 
-            if(this.czyJuzZapisanyNaTenDzien(slot)) {
+            if(id) {
                 message.info('Już jesteś dyspozycyjny w tym dniu');
+
+                if(moment(slot.start).format("YYYY-MM-DD") >= moment().add(1, 'day').format("YYYY-MM-DD")){
+                    this.setState({dyspozycja: this.formatDateFromObject(slot.start), dyspozycjaId: id, showModalUsun: true});
+                }
+
             } else {
 
                 if(this.czySkladNaDzien(slot.start)){
@@ -211,7 +221,7 @@ export default class HomeView extends React.Component<Props, State> {
             backgroundColor = '#5e5e5e'
         }
 
-        if(event.id === getNumer()){
+        if(event.numer === getNumer()){
             backgroundColor = '#d97b02'
         }
 
@@ -243,9 +253,23 @@ export default class HomeView extends React.Component<Props, State> {
         return {style: style};
     }
 
+    usunDyspozycje = () => {
+        let id = this.state.dyspozycjaId;
+
+        delEvent(id).then((response) => {
+            this.pobierzEventy();
+            message.success('Usunięto dyspozycyjność');
+            this.setState({showModalUsun: false, dyspozycjaId: null, dyspozycja: null});
+        }).catch((e) => {
+            //console.log('ok')
+            this.setState({showModalUsun: false});
+            message.error(e.response.data);
+        })
+    }
+
     render() {
 
-        let {allowToSelect, events, scrollDate, stepValue, timeslotsValue, today, showFormularz, dyspozycja, view, showModalDost} = this.state;
+        let {allowToSelect, events, scrollDate, stepValue, timeslotsValue, today, showFormularz, dyspozycja, view, showModalUsun} = this.state;
         const localizer = momentLocalizer(moment);
 
         const translation = {
@@ -365,6 +389,19 @@ export default class HomeView extends React.Component<Props, State> {
                             <DodajDyspozycyjnosc handleClickAnuluj={() => this.setState({showFormularz: false})} handleClickWyslij={this.onClickZapisz} dyspozycja={dyspozycja}/>
                         </PopupWrapper>
                     }
+
+                    <Modal
+                        // className="QRModal"
+                        title="Usuń dyspozycje"
+                        visible={showModalUsun}
+                        onOk={this.usunDyspozycje}
+                        okText="Usuń"
+                        cancelText={'Anuluj'}
+                        onCancel={() => this.setState({showModalUsun: false, dyspozycjaId: null, dyspozycja: null})}
+                    >
+                        Jesteś dyspozycyjny w tym dniu.<br/>
+                        Czy chcesz usunąć dyspozycje z dnia {dyspozycja}?
+                    </Modal>
 
                     {/*<Modal*/}
                     {/*    // className="QRModal"*/}

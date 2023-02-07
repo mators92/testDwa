@@ -545,6 +545,11 @@ div.content {
   }
 }
 
+.ant-modal-footer{
+  display: flex;
+  justify-content: space-between;
+}
+
 #POPUP_WRAPPER {
 
   position: fixed;
