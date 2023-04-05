@@ -104,6 +104,14 @@ export default class UzytkownicyView extends React.Component<Props, State> {
         alert('W budowie...');
     }
 
+    renderYesOrNo = (cell: any, row: any) => {
+        if(cell === '1'){
+            return <span className={'warTak'}>tak</span>
+        } else {
+            return <span className={'warNie'}>nie</span>
+        }
+    }
+
     render() {
         let {uzytkownicy, showModalDodaj, imie, nazwisko, numer} = this.state;
 
@@ -130,13 +138,13 @@ export default class UzytkownicyView extends React.Component<Props, State> {
                 title: 'Prawko B',
                 dataIndex: 'PRAW_B',
                 key: 'prawB',
-                // render: (text) => <a>{text}</a>,
+                render: this.renderYesOrNo,
             },
             {
                 title: 'Prawko C',
                 dataIndex: 'PRAW_C',
                 key: 'prawC',
-                // render: (text) => <a>{text}</a>,
+                render: this.renderYesOrNo,
             },
             {
                 title: 'Akcje',

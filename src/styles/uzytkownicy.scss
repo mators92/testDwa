@@ -6,6 +6,11 @@
   .ant-table-thead > tr > th {
     background: #525252;
     color: #ffffff;
+    padding: 16px 10px;
+  }
+
+  .ant-table-tbody > tr > td {
+    padding: 5px 10px;
   }
 
   .ant-table-cell-row-hover{
@@ -25,6 +30,20 @@
       color: red;
       margin-left: 5px;
     }
+  }
+
+  .warTak{
+    background: #1ba61b;
+    color: white;
+    padding: 3px 5px;
+    border-radius: 3px;
+  }
+
+  .warNie{
+    background: #af2222;
+    color: white;
+    padding: 3px 5px;
+    border-radius: 3px;
   }
 }
 
