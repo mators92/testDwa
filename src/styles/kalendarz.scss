@@ -203,3 +203,17 @@
   background-color: #999;
 }
 /*# sourceMappingURL=kalendarzStyles.css.map */
+
+.btnCzasWybor{
+  //background: #4CAF50;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+  .btn{
+    min-width: 190px;
+    display: block;
+    padding: 10px 15px;
+    margin: 10px;
+  }
+}

@@ -72,6 +72,18 @@ export const dodajDyspozycyjnosc = (numer: any, kiedy: any) => {
     })
 }
 
+export const dodajDyspozycyjnoscV2 = (numer: any, kiedy: any) => {
+    return axios({
+        method: 'POST',
+        url: HOST_API + "insertDyspoV2.php",
+        headers: {"Content-Type": "text/plain"},
+        data: {
+            numer: numer,
+            data: kiedy
+        }
+    })
+}
+
 export const delEvent = (id: string) => {
     return axios({
         method: 'delete',

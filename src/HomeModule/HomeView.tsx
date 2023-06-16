@@ -12,6 +12,7 @@ import DodajDyspozycyjnosc from "./DodajDyspozycyjnosc";
 import {czyMamC, delEvent, dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
 import {Modal, message, Alert, Row} from "antd";
 import "antd/dist/antd.css";
+import DodajDyspozycyjnoscV2 from "./DodajDyspozycyjnoscV2";
 // import {Children} from "react";
 
 interface Props {
@@ -27,6 +28,7 @@ interface State {
     allowToSelect: boolean,
     loader: boolean,
     showFormularz: boolean,
+    showFormularzV2: boolean,
     dyspozycja: any,
     dyspozycjaId: any,
     view: any,
@@ -46,6 +48,7 @@ export default class HomeView extends React.Component<Props, State> {
             allowToSelect: true,
             loader: false,
             showFormularz: false,
+            showFormularzV2: false,
             dyspozycja: null,
             dyspozycjaId: null,
             view: 'month',
@@ -66,6 +69,26 @@ export default class HomeView extends React.Component<Props, State> {
         })
     }
 
+    formatTitle = (item: any) => {
+        if(moment(item.data_gotowosci).isAfter(moment('2023-06-21')) && moment(item.data_gotowosci).isBefore(moment('2023-06-29'))){
+            if(item.dzien === '1' && item.noc === '1'){
+                return (<><i className={'fa fa-star'}/> {item.IMIE} {item.NAZWISKO} 24h</>)
+                // return <i className={'fa fa-moon-o'}/> + '24h ' + item.IMIE + ' ' + item.NAZWISKO
+            } else if(item.dzien === '1' && item.noc === '0'){
+                return (<><i className={'fa fa-sun-o'}/> {item.IMIE} {item.NAZWISKO} 6-18</>)
+                {/*return <><i className={'fa fa-moon-o'}/> + '6-18 ' + item.IMIE + ' ' + item.NAZWISKO<>*/}
+            } else if(item.dzien === '0' && item.noc === '1'){
+                return (<><i className={'fa fa-moon-o'}/> {item.IMIE} {item.NAZWISKO} 18-6</>)
+                // return '18-6 ' + item.IMIE + ' ' + item.NAZWISKO
+            } else {
+                return item.IMIE + ' ' + item.NAZWISKO
+            }
+        } else {
+            return item.IMIE + ' ' + item.NAZWISKO
+        }
+
+    }
+
     przeksztalcResponseDoKalendarza = (response: any) => {
         // kopiowanie tablicy ze zmienionymi polami by pasowały do kalendarza
         let arr = Array.from(response, (item: any) => {
@@ -73,7 +96,7 @@ export default class HomeView extends React.Component<Props, State> {
             return {
                 id: item.ID,
                 numer: item.numer,
-                title: item.IMIE + ' ' + item.NAZWISKO,
+                title: this.formatTitle(item),
                 desc: 'description',
                 start: new Date(item.data_gotowosci),
                 end: new Date(item.data_gotowosci),
@@ -173,20 +196,25 @@ export default class HomeView extends React.Component<Props, State> {
 
             } else {
 
-                if(this.czySkladNaDzien(slot.start)){
-                    message.info('Już jest skład podstawowy na ten dzień');
+                if(moment(slot.start).isAfter(moment('2023-06-21')) && moment(slot.start).isBefore(moment('2023-06-29'))){
+                    // dyspozycja ekstra w dniach 2023-06-22 - 2023-06-28
+                    this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularzV2: true});
                 } else {
-                    if(this.ileOsob(slot.start) === 3){
-                        if(this.czyJestNaC(slot.start) || czyMamC()){
-                            this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
-                        } else {
-                            message.warning('Potrzebna osoba z kat C');
-                        }
+                    // po staremu
+                    if(this.czySkladNaDzien(slot.start)){
+                        message.info('Już jest skład podstawowy na ten dzień');
                     } else {
-                        this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+                        if(this.ileOsob(slot.start) === 3){
+                            if(this.czyJestNaC(slot.start) || czyMamC()){
+                                this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+                            } else {
+                                message.warning('Potrzebna osoba z kat C');
+                            }
+                        } else {
+                            this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularz: true});
+                        }
                     }
                 }
-
             }
 
         } else {
@@ -205,6 +233,18 @@ export default class HomeView extends React.Component<Props, State> {
             this.setState({showFormularz: false});
             message.error(e.response.data);
         })
+    }
+
+    onClickZapiszV2 = (data: any) => {
+        // dodajDyspozycyjnosc(data.numer, data.kiedy).then((response) => {
+        //     this.setState({showFormularz: false});
+        //     this.pobierzEventy();
+        //     message.success('Dodano dyspozycyjność');
+        // }).catch((e) => {
+        //     //console.log('ok')
+        //     this.setState({showFormularz: false});
+        //     message.error(e.response.data);
+        // })
     }
 
     onChangeView = (newView: any) => {
@@ -269,7 +309,7 @@ export default class HomeView extends React.Component<Props, State> {
 
     render() {
 
-        let {allowToSelect, events, scrollDate, stepValue, timeslotsValue, today, showFormularz, dyspozycja, view, showModalUsun} = this.state;
+        let {allowToSelect, events, scrollDate, stepValue, timeslotsValue, today, showFormularz, dyspozycja, view, showModalUsun, showFormularzV2} = this.state;
         const localizer = momentLocalizer(moment);
 
         const translation = {
@@ -387,6 +427,16 @@ export default class HomeView extends React.Component<Props, State> {
                                       onClose={() => this.setState({showFormularz: false})}
                         >
                             <DodajDyspozycyjnosc handleClickAnuluj={() => this.setState({showFormularz: false})} handleClickWyslij={this.onClickZapisz} dyspozycja={dyspozycja}/>
+                        </PopupWrapper>
+                    }
+
+                    {
+                        showFormularzV2 &&
+                        <PopupWrapper header={'Dodaj dyspozycyjność'}
+                                      shouldNotCloseWithoutClick={true} withoutOverflowY={false}
+                                      onClose={() => this.setState({showFormularzV2: false})}
+                        >
+                            <DodajDyspozycyjnoscV2 handleClickAnuluj={() => this.setState({showFormularzV2: false})} handleClickWyslij={this.onClickZapiszV2} dyspozycja={dyspozycja}/>
                         </PopupWrapper>
                     }
 
