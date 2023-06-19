@@ -1,0 +1,210 @@
+.kalendarzModule {
+  width: 100%;
+}
+.kalendarzModule .rbc-event {
+  font-size: 9px !important;
+  padding: 1px 5px;
+  max-height: 14px;
+  border-radius: 3px;
+}
+.kalendarzModule .rbc-show-more {
+  font-size: 9px;
+}
+.kalendarzModule .rbc-month-row {
+  min-height: 80px;
+}
+.kalendarzModule .rbc-time-view .rbc-allday-cell {
+  padding-top: 5px;
+}
+.kalendarzModule .rbc-allday-cell .rbc-event-allday {
+  max-height: none !important;
+}
+.kalendarzModule .rbc-time-header-gutter {
+  display: none;
+}
+.kalendarzModule .rbc-time-view {
+  flex: none;
+}
+.kalendarzModule .rbc-selected-cell {
+  background: #4CAF50 !important;
+}
+.kalendarzModule .rbc-date-cell {
+  font-size: 11px;
+}
+.kalendarzModule .rbc-time-content {
+  display: none !important;
+}
+.kalendarzModule .rbc-time-header {
+  height: 100%;
+}
+.kalendarzModule .rbc-time-header .rbc-event {
+  font-size: 15px !important;
+  padding: 2px 5px;
+}
+.kalendarzModule .test {
+  background: #4CAF50;
+}
+.kalendarzModule .legenda {
+  margin-top: 15px;
+}
+.kalendarzModule .legenda .kolor {
+  display: flex;
+}
+.kalendarzModule .legenda .kolor .kd {
+  width: 50px;
+  height: 20px;
+}
+.kalendarzModule .legenda .kolor .kolorJ {
+  background: #d97b02;
+}
+.kalendarzModule .legenda .kolor .kolorC {
+  background: #5e5e5e;
+}
+.kalendarzModule .legenda .kolor .kolorR {
+  background: #3074AD;
+}
+.kalendarzModule .legenda div {
+  display: inline-block;
+}
+.kalendarzModule .legenda label {
+  display: inline-block;
+  padding-left: 5px;
+}
+.kalendarzModule .alertBrakSkladu {
+  margin-bottom: 15px;
+  font-weight: bold;
+  background: red;
+  animation: mymove 2s infinite linear;
+}
+.kalendarzModule .alertBrakSkladu .ant-alert-message {
+  color: white;
+}
+@keyframes mymove {
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: blue;
+  }
+  100% {
+    background-color: red;
+  }
+}
+
+.kalendarzModule .panel-body {
+  padding: 15px 0;
+}
+
+.kalendarzModule .buttonPanel {
+  text-align: right;
+}
+
+.kalendarzModule .form-control {
+  height: unset !important;
+}
+
+.kalendarzModule .adminZkdoCombo {
+  width: 300px;
+  display: inline-block;
+}
+
+.kalendarzModule .adminZkdoButton {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.kalendarzModule .adminZkdoButton .btn {
+  vertical-align: unset;
+}
+
+.kalendarzModule label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.kalendarzModule .rozmiar200 {
+  max-width: 200px;
+}
+
+.kalendarzModule input[type=date] {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: hsl(0, 0%, 100%);
+  border-color: hsl(0, 0%, 80%);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: default;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  min-height: 38px;
+  outline: 0 !important;
+  position: relative;
+  -webkit-transition: all 100ms;
+  transition: all 100ms;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.kalendarzModule .NewEventForm {
+  font-size: 0.875rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+.kalendarzModule .NewEventForm .header {
+  background: #72b00d !important;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3137254902);
+  border-bottom: 1px solid #ccc;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  color: white;
+  line-height: 30px;
+  font-weight: 500;
+  padding: 5px 10px;
+}
+
+.kalendarzModule .NewEventForm .comboProjekt .comFirma {
+  padding: 0 5px;
+  color: #72b00d;
+  border: 1px solid #999;
+  border-radius: 3px 0 0 3px;
+}
+
+.kalendarzModule .NewEventForm .comboProjekt .comNazwa {
+  padding: 0 5px;
+  border-radius: 0 3px 3px 0;
+  color: white;
+  border: 1px solid #999;
+  background-color: #999;
+}
+
+
+.btnCzasWybor {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+.btnCzasWybor .btn {
+  min-width: 190px;
+  display: block;
+  padding: 10px 15px;
+  margin: 10px;
+}
+
+/*# sourceMappingURL=kalendarz.css.map */

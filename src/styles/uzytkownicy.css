@@ -1,0 +1,45 @@
+.uzytkownicyModule .ant-table {
+  margin-top: 15px;
+}
+.uzytkownicyModule .ant-table-thead > tr > th {
+  background: #525252;
+  color: #ffffff;
+  padding: 16px 10px;
+}
+.uzytkownicyModule .ant-table-tbody > tr > td {
+  padding: 5px 10px;
+}
+.uzytkownicyModule .ant-table-cell-row-hover {
+  background: #e18787 !important;
+}
+.uzytkownicyModule .anticon {
+  vertical-align: unset;
+}
+.uzytkownicyModule .TableButtons .edit {
+  color: dodgerblue;
+}
+.uzytkownicyModule .TableButtons .delete {
+  color: red;
+  margin-left: 5px;
+}
+.uzytkownicyModule .warTak {
+  background: #1ba61b;
+  color: white;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+.uzytkownicyModule .warNie {
+  background: #af2222;
+  color: white;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+
+.dodajModal label {
+  margin: 10px 0 0 0;
+}
+.dodajModal label:first-of-type {
+  margin-top: 0;
+}
+
+/*# sourceMappingURL=uzytkownicy.css.map */

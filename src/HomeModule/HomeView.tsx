@@ -9,7 +9,15 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "moment/locale/pl";
 import PopupWrapper from "../globalComponent/PopupWrapper";
 import DodajDyspozycyjnosc from "./DodajDyspozycyjnosc";
-import {czyMamC, delEvent, dodajDyspozycyjnosc, getKalendarz, getNumer, scrollToTop} from "../Serwis";
+import {
+    czyMamC,
+    delEvent,
+    dodajDyspozycyjnosc,
+    dodajDyspozycyjnoscV2,
+    getKalendarz,
+    getNumer,
+    scrollToTop
+} from "../Serwis";
 import {Modal, message, Alert, Row} from "antd";
 import "antd/dist/antd.css";
 import DodajDyspozycyjnoscV2 from "./DodajDyspozycyjnoscV2";
@@ -72,12 +80,15 @@ export default class HomeView extends React.Component<Props, State> {
     formatTitle = (item: any) => {
         if(moment(item.data_gotowosci).isAfter(moment('2023-06-21')) && moment(item.data_gotowosci).isBefore(moment('2023-06-29'))){
             if(item.dzien === '1' && item.noc === '1'){
-                return (<><i className={'fa fa-star'}/> {item.IMIE} {item.NAZWISKO} 24h</>)
-                // return <i className={'fa fa-moon-o'}/> + '24h ' + item.IMIE + ' ' + item.NAZWISKO
+                return (<>24h {item.IMIE} {item.NAZWISKO} 24h</>)
+                // return (<>24h {item.IMIE} {item.NAZWISKO} <span className={'float-right'} style={{display: 'inline-block'}}>24h</span></>)
+                // return <i className={'fa fa-moon-o'}/><i className={'fa fa-star'}/> + '24h ' + item.IMIE + ' ' + item.NAZWISKO
             } else if(item.dzien === '1' && item.noc === '0'){
                 return (<><i className={'fa fa-sun-o'}/> {item.IMIE} {item.NAZWISKO} 6-18</>)
+                // return (<><i className={'fa fa-sun-o'}/> {item.IMIE} {item.NAZWISKO} <span className={'float-right'} style={{display: 'inline-block'}}>6-18</span></>)
                 {/*return <><i className={'fa fa-moon-o'}/> + '6-18 ' + item.IMIE + ' ' + item.NAZWISKO<>*/}
             } else if(item.dzien === '0' && item.noc === '1'){
+                // return (<><i className={'fa fa-moon-o'}/> {item.IMIE} {item.NAZWISKO} <span className={'float-right'} style={{display: 'inline-block'}}>18-6</span></>)
                 return (<><i className={'fa fa-moon-o'}/> {item.IMIE} {item.NAZWISKO} 18-6</>)
                 // return '18-6 ' + item.IMIE + ' ' + item.NAZWISKO
             } else {
@@ -101,7 +112,9 @@ export default class HomeView extends React.Component<Props, State> {
                 start: new Date(item.data_gotowosci),
                 end: new Date(item.data_gotowosci),
                 allDay: true,
-                c: item.PRAW_C
+                c: item.PRAW_C,
+                dzien: item.dzien,
+                noc: item.noc
             }
         });
 
@@ -153,10 +166,32 @@ export default class HomeView extends React.Component<Props, State> {
 
     czySkladNaDzien = (data: any) => {
         let eve = this.state.events;
+        let zielony = false;
 
-        let eventsPerDey = eve.filter((e: any) => moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD"));
+        if(moment(data).isAfter(moment('2023-06-21')) && moment(data).isBefore(moment('2023-06-29'))){
+            let eventsPerDeyDzien = eve.filter((e: any) => (moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD")) && e.dzien === '1');
+            let eventsPerDeyNoc = eve.filter((e: any) => (moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD")) && e.noc === '1');
 
-        return (eventsPerDey.length === 4)
+            // console.log(moment(data).format("YYYY-MM-DD"), eventsPerDeyDzien.length, eventsPerDeyNoc.length)
+
+            zielony = ((eventsPerDeyDzien.length >= 6) && (eventsPerDeyNoc.length >= 6));
+        } else {
+            let eventsPerDey = eve.filter((e: any) => moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD"));
+
+            zielony = (eventsPerDey.length === 4)
+        }
+
+
+        return zielony
+    }
+
+    czySkladNaDzienV2 = (data: any) => {
+        let eve = this.state.events;
+
+        let eventsPerDeyDzien = eve.filter((e: any) => (moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD")) && e.dzien === '1');
+        let eventsPerDeyNoc = eve.filter((e: any) => (moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD")) && e.noc === '1');
+
+        return ((eventsPerDeyDzien.length >= 6) && (eventsPerDeyNoc.length >= 6))
     }
 
     czyJestNaC = (data: any) => {
@@ -236,15 +271,16 @@ export default class HomeView extends React.Component<Props, State> {
     }
 
     onClickZapiszV2 = (data: any) => {
-        // dodajDyspozycyjnosc(data.numer, data.kiedy).then((response) => {
-        //     this.setState({showFormularz: false});
-        //     this.pobierzEventy();
-        //     message.success('Dodano dyspozycyjność');
-        // }).catch((e) => {
-        //     //console.log('ok')
-        //     this.setState({showFormularz: false});
-        //     message.error(e.response.data);
-        // })
+        dodajDyspozycyjnoscV2(data).then((response) => {
+            this.setState({showFormularzV2: false});
+            this.pobierzEventy();
+            message.success('Dodano dyspozycyjność');
+        }).catch((e) => {
+            //console.log('ok')
+            this.pobierzEventy();
+            this.setState({showFormularzV2: false});
+            message.error(e.response.data);
+        })
     }
 
     onChangeView = (newView: any) => {

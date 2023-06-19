@@ -1,0 +1,18 @@
+.ustawieniaPage {
+  padding-top: 10px;
+}
+.ustawieniaPage label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+.ustawieniaPage .btnZmianaHasla {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.ustawieniaPage .inpUstawienia {
+  max-width: 500px;
+}
+
+/*# sourceMappingURL=ustawienia.css.map */

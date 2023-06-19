@@ -104,10 +104,12 @@ class DodajDyspozycyjnoscV2 extends Component<Props, State> {
         this.setState({waznyDo: (e === '' || e < waznyOd)? null : e});
     }
 
-    onClickWyslij = () => {
+    onClickWyslij = (dzien: any, noc: any) => {
         let data = {
             numer: getNumer(),
-            kiedy: this.props.dyspozycja
+            data: this.props.dyspozycja,
+            dzien: dzien,
+            noc: noc
         }
 
         this.props.handleClickWyslij(data)
@@ -175,18 +177,18 @@ class DodajDyspozycyjnoscV2 extends Component<Props, State> {
                             <div className={'btnCzasWybor'}>
                                 {/*<ButtonToolbar>*/}
                                     <Button variant={'warning'} size={'sm'}
-                                        // onClick={()=>{this.onClickWyslij()}}
+                                        onClick={()=>{this.onClickWyslij('1', '0')}}
                                     >
                                         <>6:00 - 18:00 (dzień)</>
                                         {/*<><i className="fa fa-floppy-o" /> 06:00 - 18:00</>*/}
                                     </Button>
                                     <Button variant={'primary'} size={'sm'}
-                                        // onClick={()=>{this.onClickWyslij()}}
+                                            onClick={()=>{this.onClickWyslij('0', '1')}}
                                     >
                                         <>18:00 - 6:00 (noc)</>
                                     </Button>
                                     <Button variant={'success'} size={'sm'}
-                                        // onClick={()=>{this.onClickWyslij()}}
+                                            onClick={()=>{this.onClickWyslij('1', '1')}}
                                     >
                                         <>6:00 - 6:00 (24h)</>
                                     </Button>
