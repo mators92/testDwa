@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/testDwa/static/css/main.40625cb6.chunk.css",
+    "main.js": "/testDwa/static/js/main.d3880bf7.chunk.js",
+    "main.js.map": "/testDwa/static/js/main.d3880bf7.chunk.js.map",
+    "runtime-main.js": "/testDwa/static/js/runtime-main.799a751f.js",
+    "runtime-main.js.map": "/testDwa/static/js/runtime-main.799a751f.js.map",
+    "static/css/2.5418477f.chunk.css": "/testDwa/static/css/2.5418477f.chunk.css",
+    "static/js/2.5d69aa1c.chunk.js": "/testDwa/static/js/2.5d69aa1c.chunk.js",
+    "static/js/2.5d69aa1c.chunk.js.map": "/testDwa/static/js/2.5d69aa1c.chunk.js.map",
+    "static/js/3.c00aa064.chunk.js": "/testDwa/static/js/3.c00aa064.chunk.js",
+    "static/js/3.c00aa064.chunk.js.map": "/testDwa/static/js/3.c00aa064.chunk.js.map",
+    "index.html": "/testDwa/index.html",
+    "static/css/2.5418477f.chunk.css.map": "/testDwa/static/css/2.5418477f.chunk.css.map",
+    "static/css/main.40625cb6.chunk.css.map": "/testDwa/static/css/main.40625cb6.chunk.css.map",
+    "static/js/2.5d69aa1c.chunk.js.LICENSE.txt": "/testDwa/static/js/2.5d69aa1c.chunk.js.LICENSE.txt",
+    "static/media/App.scss": "/testDwa/static/media/double-bubble-outline.0694bcab.png",
+    "static/media/font-awesome.min.css": "/testDwa/static/media/fontawesome-webfont.f691f37e.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.799a751f.js",
+    "static/css/2.5418477f.chunk.css",
+    "static/js/2.5d69aa1c.chunk.js",
+    "static/css/main.40625cb6.chunk.css",
+    "static/js/main.d3880bf7.chunk.js"
+  ]
+}
