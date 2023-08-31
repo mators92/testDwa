@@ -78,7 +78,7 @@ export default class HomeView extends React.Component<Props, State> {
     }
 
     formatTitle = (item: any) => {
-        if(moment(item.data_gotowosci).isAfter(moment('2023-06-21')) && moment(item.data_gotowosci).isBefore(moment('2023-06-29'))){
+        if(moment(item.data_gotowosci).isAfter(moment('2023-09-01')) && moment(item.data_gotowosci).isBefore(moment('2024-09-01'))){
             if(item.dzien === '1' && item.noc === '1'){
                 return (<>24h {item.IMIE} {item.NAZWISKO} 24h</>)
                 // return (<>24h {item.IMIE} {item.NAZWISKO} <span className={'float-right'} style={{display: 'inline-block'}}>24h</span></>)
@@ -168,7 +168,7 @@ export default class HomeView extends React.Component<Props, State> {
         let eve = this.state.events;
         let zielony = false;
 
-        if(moment(data).isAfter(moment('2023-06-21')) && moment(data).isBefore(moment('2023-06-29'))){
+        if(moment(data).isAfter(moment('2023-09-01')) && moment(data).isBefore(moment('2024-09-01'))){
             let eventsPerDeyDzien = eve.filter((e: any) => (moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD")) && e.dzien === '1');
             let eventsPerDeyNoc = eve.filter((e: any) => (moment(e.start).format("YYYY-MM-DD") === moment(data).format("YYYY-MM-DD")) && e.noc === '1');
 
@@ -231,7 +231,7 @@ export default class HomeView extends React.Component<Props, State> {
 
             } else {
 
-                if(moment(slot.start).isAfter(moment('2023-06-21')) && moment(slot.start).isBefore(moment('2023-06-29'))){
+                if(moment(slot.start).isAfter(moment('2023-09-01')) && moment(slot.start).isBefore(moment('2024-09-01'))){
                     // dyspozycja ekstra w dniach 2023-06-22 - 2023-06-28
                     this.setState({dyspozycja: this.formatDateFromObject(slot.start), showFormularzV2: true});
                 } else {
